@@ -26,9 +26,14 @@ const updateCustomer = (cus) => {
     });
 };
 
+const getAllCusNum = () => {
+    return axios.get("api/customer/read-all-number");
+};
+
 export {
     addNewCustomer,
     getCustomerWithPagination,
     getCustomerDetail,
     updateCustomer,
+    getAllCusNum,
 };

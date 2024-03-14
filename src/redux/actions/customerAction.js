@@ -11,12 +11,16 @@ import {
     UPDATE_CUS_REQUEST,
     UPDATE_CUS_ERROR,
     UPDATE_CUS_SUCCESS,
+    ALL_CUS_REQUEST,
+    ALL_CUS_ERROR,
+    ALL_CUS_SUCCESS,
 } from "../types/customerType";
 import {
     addNewCustomer,
     getCustomerWithPagination,
     getCustomerDetail,
     updateCustomer,
+    getAllCusNum,
 } from "../../services/customerService";
 import { toast } from "react-toastify";
 
@@ -62,12 +66,16 @@ const readCusPaginationRedux = (page, limit) => {
         try {
             const res = await getCustomerWithPagination(page, limit);
             console.log(">> check response cus: ", res);
-            const data = {
-                page: page,
-                limit: limit,
-                res: res,
-            };
-            dispatch(readCusSuccess(data));
+            if (res && +res?.status === 200) {
+                const data = {
+                    page: page,
+                    limit: limit,
+                    res: res.data,
+                };
+                dispatch(readCusSuccess(data));
+            } else {
+                dispatch(readCusError());
+            }
         } catch (e) {
             toast.error("Tải thông tin khách hàng thất bại, vui lòng thử lại!");
             dispatch(readCusError());
@@ -161,9 +169,46 @@ const updateCusSuccess = () => {
     };
 };
 
+const allCusRedux = () => {
+    return async (dispatch, getState) => {
+        dispatch(allCusRequest());
+        try {
+            const res = await getAllCusNum();
+            console.log(">> check response all cus: ", res);
+            if (res && +res?.status === 200) {
+                dispatch(allCusSuccess(res?.data));
+            } else {
+                dispatch(allCusError());
+            }
+        } catch (e) {
+            dispatch(allCusError());
+        }
+    };
+};
+
+const allCusRequest = () => {
+    return {
+        type: ALL_CUS_REQUEST,
+    };
+};
+
+const allCusError = () => {
+    return {
+        type: ALL_CUS_ERROR,
+    };
+};
+
+const allCusSuccess = (payload) => {
+    return {
+        type: ALL_CUS_SUCCESS,
+        payload,
+    };
+};
+
 export {
     createCusRedux,
     detailCusRedux,
     readCusPaginationRedux,
     updateCusRedux,
+    allCusRedux,
 };

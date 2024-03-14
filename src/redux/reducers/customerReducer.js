@@ -7,17 +7,22 @@ import {
     DETAIL_CUS_SUCCESS,
     UPDATE_CUS_REQUEST,
     UPDATE_CUS_SUCCESS,
+    ALL_CUS_REQUEST,
+    ALL_CUS_ERROR,
+    ALL_CUS_SUCCESS,
 } from "../types/customerType";
 
 const INITIAL_STATE = {
     listCus: "",
     cus: "",
+    isLoadingAllCusNumber: false,
     isLoadingPagination: false,
     isLoadingCreateCus: false,
     isLoadingUpdateCus: false,
     isLoadingDetailCus: false,
-    pageCus: 0,
-    limitCus: 0,
+    pageCus: 1,
+    limitCus: 10,
+    totalCus: "",
 };
 
 const customerReducer = (state = INITIAL_STATE, action) => {
@@ -26,6 +31,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 listCus: "",
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: true,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: false,
@@ -37,6 +43,37 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 listCus: action.payload?.res,
                 pageCus: action.payload?.page,
                 limitCus: action.payload?.limit,
+                isLoadingAllCusNumber: false,
+                isLoadingPagination: false,
+                isLoadingCreateCus: false,
+                isLoadingUpdateCus: false,
+                isLoadingDetailCus: false,
+            };
+        case ALL_CUS_REQUEST:
+            return {
+                ...state,
+                totalCus: "",
+                isLoadingAllCusNumber: true,
+                isLoadingPagination: false,
+                isLoadingCreateCus: false,
+                isLoadingUpdateCus: false,
+                isLoadingDetailCus: false,
+            };
+        case ALL_CUS_SUCCESS:
+            return {
+                ...state,
+                totalCus: action?.payload,
+                isLoadingAllCusNumber: false,
+                isLoadingPagination: false,
+                isLoadingCreateCus: false,
+                isLoadingUpdateCus: false,
+                isLoadingDetailCus: false,
+            };
+        case ALL_CUS_ERROR:
+            return {
+                ...state,
+                totalCus: "",
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: false,
@@ -45,6 +82,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
         case CREATE_CUS_REQUEST:
             return {
                 ...state,
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: true,
                 isLoadingUpdateCus: false,
@@ -53,6 +91,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
         case CREATE_CUS_SUCCESS:
             return {
                 ...state,
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: false,
@@ -61,6 +100,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
         case DETAIL_CUS_REQUEST:
             return {
                 ...state,
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: false,
@@ -70,6 +110,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 cus: action.payload,
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: false,
@@ -78,6 +119,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
         case UPDATE_CUS_REQUEST:
             return {
                 ...state,
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: true,
@@ -86,6 +128,7 @@ const customerReducer = (state = INITIAL_STATE, action) => {
         case UPDATE_CUS_SUCCESS:
             return {
                 ...state,
+                isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isLoadingUpdateCus: false,

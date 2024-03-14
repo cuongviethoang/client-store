@@ -4,7 +4,7 @@ import Login from "../pages/login/Login";
 import Home from "../pages/home/Home";
 import DetailCustomer from "../pages/DetailCustomer";
 import DetailProduct from "../pages/DetailProduct";
-import ManageCustomer from "../pages/ManageCustomers";
+import ManageCustomer from "../pages/managecustomer/ManageCustomers";
 import ManageUser from "../pages/ManageUser";
 import ManageProduct from "../pages/ManageProduct";
 import PrivateRoutes from "./PrivateRoutes";

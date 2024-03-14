@@ -39,18 +39,18 @@ const Header = () => {
                                     >
                                         Home
                                     </NavLink>
-                                    {/* <NavLink className="nav-link" to="/user">
-                                        User
-                                    </NavLink>
-                                    <NavLink className="nav-link" to="/roles">
-                                        Roles
+                                    <NavLink
+                                        className="nav-link"
+                                        to="/manage-user"
+                                    >
+                                        Manage user
                                     </NavLink>
                                     <NavLink
                                         className="nav-link"
-                                        to="/group-role"
+                                        to="/manage-customer"
                                     >
-                                        GroupRoles
-                                    </NavLink> */}
+                                        Manage customer
+                                    </NavLink>
                                 </Nav>
                                 <Nav>
                                     {user?.isAuthentication ? (

@@ -16,8 +16,8 @@ import {
 const INITIAL_ACTION = {
     prosNum: "",
     listPros: "",
-    page: "",
-    limit: "",
+    page: 1,
+    limit: 6,
     isLoadingCreatePro: false,
     isLoadingPagination: false,
     isErrorLoadingDetailPro: false,
