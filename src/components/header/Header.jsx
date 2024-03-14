@@ -1,21 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { fetchLogoutRedux } from "../../redux/actions/authAction";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+
+import "./Header.scss";
 
 import "./Header.scss";
 const Header = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const navigation = useNavigate();
     const user = useSelector((state) => state.auth.data);
 
     const handleLogoutUser = async () => {
         dispatch(fetchLogoutRedux());
-        navigation("/login");
     };
 
     if (user.isAuthentication || location.pathname === "/") {
@@ -40,7 +39,7 @@ const Header = () => {
                                     >
                                         Home
                                     </NavLink>
-                                    <NavLink className="nav-link" to="/user">
+                                    {/* <NavLink className="nav-link" to="/user">
                                         User
                                     </NavLink>
                                     <NavLink className="nav-link" to="/roles">
@@ -51,27 +50,26 @@ const Header = () => {
                                         to="/group-role"
                                     >
                                         GroupRoles
-                                    </NavLink>
+                                    </NavLink> */}
                                 </Nav>
                                 <Nav>
-                                    {user.isAuthentication ? (
+                                    {user?.isAuthentication ? (
                                         <>
                                             <Nav.Item
                                                 href="#deets"
                                                 className="nav-link"
                                             >
                                                 Welcome{" "}
-                                                {user.dataLogin.username} !
+                                                {user?.dataLogin?.username} !
                                             </Nav.Item>
-                                            <NavLink>
-                                                <span
-                                                    onClick={() =>
-                                                        handleLogoutUser()
-                                                    }
-                                                >
-                                                    Logout
-                                                </span>
-                                            </NavLink>
+                                            <Link
+                                                className="nav-link"
+                                                onClick={() =>
+                                                    handleLogoutUser()
+                                                }
+                                            >
+                                                Logout
+                                            </Link>
                                         </>
                                     ) : (
                                         <NavLink

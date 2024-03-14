@@ -8,12 +8,12 @@ import {
     LOGIN_AUTH_SUCCESS,
     LOGOUT_AUTH_REQUEST,
     LOGOUT_AUTH_SUCCESS,
-} from "../types/authType";
-import {
     REFRESH_USER_REQUEST,
     REFRESH_USER_ERROR,
     REFRESH_USER_SUCCESS,
-} from "../types/userType";
+    LOGOUT_AUTH_ERROR,
+} from "../types/authType";
+import { useNavigate } from "react-router-dom";
 
 import {
     authRegister,
@@ -34,11 +34,11 @@ const fetchRegisterRedux = (email, phoneNumber, username, password) => {
             );
 
             console.log(">> check response register: ", res);
-            if (res && +res?.EC === 0) {
-                toast.success(res?.EM);
-                dispatch(fetchRegisterSuccess(res));
+            if (res && +res?.status === 200) {
+                toast.success(res?.data?.em);
+                dispatch(fetchRegisterSuccess(res?.data));
             } else {
-                toast.error(res?.EM);
+                toast.error(res?.data.em);
                 dispatch(fetchRegisterError(res));
             }
         } catch (e) {
@@ -74,8 +74,13 @@ const fetchLoginRedux = (valueLogin, password) => {
         try {
             const res = await authLogin(valueLogin, password);
             console.log(">> check response login: ", res);
-            toast.success("Đăng nhập thành công");
-            dispatch(fetchLoginSuccess(res));
+            if (res && +res.status === 200) {
+                toast.success("Đăng nhập thành công");
+                dispatch(fetchLoginSuccess(res?.data));
+            } else {
+                toast.error(res?.em);
+                dispatch(fetchLoginError());
+            }
         } catch (e) {
             toast.error("Đăng nhập thất bại");
             dispatch(fetchLoginError());
@@ -109,8 +114,12 @@ const fetchLogoutRedux = () => {
         try {
             const res = await authLogout();
             console.log(">> check response logout: ", res);
-            toast.success("Đăng xuất thành công");
-            dispatch(fetchLogoutSuccess(res));
+            if (res && +res.status === 200) {
+                toast.success(res?.em);
+                dispatch(fetchLogoutSuccess(res));
+            } else {
+                dispatch(fetchLogoutError());
+            }
         } catch (e) {
             toast.error("Đăng xuất thất bại!");
         }
@@ -130,13 +139,23 @@ const fetchLogoutSuccess = (payload) => {
     };
 };
 
+const fetchLogoutError = () => {
+    return {
+        type: LOGOUT_AUTH_ERROR,
+    };
+};
+
 const refreshUserRedux = () => {
     return async (dispatch, getState) => {
         dispatch(refreshUserRequest());
         try {
             const res = await refreshUser();
             console.log(">> check response refresh user: ", res);
-            dispatch(refreshUserSuccess(res));
+            if (res && +res?.status === 200) {
+                dispatch(refreshUserSuccess(res?.data));
+            } else {
+                dispatch(refreshUserError());
+            }
         } catch (e) {
             toast.error("Tải thông tin thất bại!");
             dispatch(refreshUserError());

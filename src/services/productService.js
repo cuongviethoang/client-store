@@ -11,6 +11,10 @@ const addNewProduct = (productName, productImage, qrCode, price, total) => {
     return axios.post("/api/product/create", formData);
 };
 
+const getAllNumberPro = () => {
+    return axios.get("/api/product/read-all-number");
+};
+
 const getProductWithPagination = (page, limit) => {
     return axios.get("/api/product/read-all", {
         params: {
@@ -24,4 +28,9 @@ const getDetailProduct = (proId) => {
     return axios.get(`/api/product/` + proId);
 };
 
-export { addNewProduct, getProductWithPagination, getDetailProduct };
+export {
+    addNewProduct,
+    getProductWithPagination,
+    getDetailProduct,
+    getAllNumberPro,
+};

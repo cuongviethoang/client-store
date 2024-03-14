@@ -8,9 +8,13 @@ import {
     DETAIL_PRO_REQUEST,
     DETAIL_PRO_ERROR,
     DETAIL_PRO_SUCCESS,
+    ALL_PRO_REQUEST,
+    ALL_PRO_ERROR,
+    ALL_PRO_SUCCESS,
 } from "../types/productType";
 
 const INITIAL_ACTION = {
+    prosNum: "",
     listPros: "",
     page: "",
     limit: "",
@@ -41,6 +45,33 @@ const productReducer = (state = INITIAL_ACTION, action) => {
         case CREATE_PRO_SUCCESS:
             return {
                 ...state,
+                isLoadingCreatePro: false,
+                isLoadingPagination: false,
+                isErrorLoadingDetailPro: false,
+                product: "",
+            };
+        case ALL_PRO_REQUEST:
+            return {
+                ...state,
+                prosNum: "",
+                isLoadingCreatePro: false,
+                isLoadingPagination: false,
+                isErrorLoadingDetailPro: false,
+                product: "",
+            };
+        case ALL_PRO_ERROR:
+            return {
+                ...state,
+                prosNum: "",
+                isLoadingCreatePro: false,
+                isLoadingPagination: false,
+                isErrorLoadingDetailPro: false,
+                product: "",
+            };
+        case ALL_PRO_SUCCESS:
+            return {
+                ...state,
+                prosNum: action.payload,
                 isLoadingCreatePro: false,
                 isLoadingPagination: false,
                 isErrorLoadingDetailPro: false,

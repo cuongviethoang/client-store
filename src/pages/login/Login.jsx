@@ -2,11 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { fetchLoginRedux } from "../redux/actions/authAction";
+import { fetchLoginRedux } from "../../redux/actions/authAction";
+
+import "./Login.scss";
 const Login = () => {
     const navigation = useNavigate();
     const dispatch = useDispatch();
-    const auth = useSelector((state) => state.auth.isAuthentication);
+    const auth = useSelector((state) => state.auth.data.isAuthentication);
     const isLoadingLogin = useSelector((state) => state.auth.isLoadingLogin);
 
     const [valueLogin, setValueLogin] = useState("");
@@ -28,20 +30,20 @@ const Login = () => {
 
     const handleLogin = async () => {
         setObjValidInput(defaultObjValidInput);
-        if (!valueLogin) {
+        if (!valueLogin.trim()) {
             setObjValidInput({
                 ...defaultObjValidInput,
                 isValidValueLogin: false,
             });
-            toast.error("Please enter your email or phone number ");
+            toast.error("Vui lòng điền email hoặc phone number");
             return;
         }
-        if (!password) {
+        if (!password.trim()) {
             setObjValidInput({
                 ...defaultObjValidInput,
                 isValidPassword: false,
             });
-            toast.error("Please enter your password");
+            toast.error("Vui lòng điền mật khẩu");
             return;
         }
         dispatch(fetchLoginRedux(valueLogin, password));

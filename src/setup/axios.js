@@ -3,15 +3,11 @@ import { toast } from "react-toastify";
 
 // Set config defaults when creating the instance
 const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL,
+    baseURL: "http://localhost:8080",
+    withCredentials: true,
 });
 
 instance.defaults.withCredentials = true; // config axios : mỗi khi gửi req lên server nodejs sẽ luôn mặc định đính kèm cookie
-
-// Alter defaults after instance has been created
-instance.defaults.headers.common[
-    "Authorization"
-] = `Bearer ${localStorage.getItem("jwt")}`;
 
 // Add a request interceptor
 instance.interceptors.request.use(
@@ -31,7 +27,7 @@ instance.interceptors.response.use(
     function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
-        return response.data;
+        return response;
     },
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
@@ -57,23 +53,19 @@ instance.interceptors.response.use(
             }
 
             case 400: {
-                toast.error("Error 400");
                 return error.response.data;
             }
 
             case 404: {
-                toast.error("Error 404");
-
                 return error.response.data;
             }
             case 409: {
-                toast.error("Error 409");
-
                 return error.response.data;
             }
             case 422: {
-                toast.error("Error 422");
-
+                return error.response.data;
+            }
+            case 500: {
                 return error.response.data;
             }
             default: {

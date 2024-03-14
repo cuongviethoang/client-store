@@ -1,13 +1,15 @@
 import {
+    REFRESH_USER_ERROR,
+    REFRESH_USER_REQUEST,
+    REFRESH_USER_SUCCESS,
     REGISTER_AUTH_REQUEST,
     REGISTER_AUTH_SUCCESS,
     LOGIN_AUTH_REQUEST,
     LOGIN_AUTH_SUCCESS,
+    LOGIN_AUTH_ERROR,
     LOGOUT_AUTH_REQUEST,
     LOGOUT_AUTH_SUCCESS,
 } from "../types/authType";
-
-import { REFRESH_USER_REQUEST, REFRESH_USER_SUCCESS } from "../types/userType";
 
 const INITIAL_STATE = {
     data: {
@@ -29,7 +31,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                     isAuthentication: false,
                     dataLogin: "",
                 },
-                isLoadingRegister: true,
+                isLoadingRegister: false,
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: true,
@@ -41,7 +43,19 @@ const authReducer = (state = INITIAL_STATE, action) => {
                     isAuthentication: true,
                     dataLogin: action.payload,
                 },
-                isLoadingRegister: true,
+                isLoadingRegister: false,
+                isLoadingLogin: false,
+                isLoadingLogout: false,
+                isLoadingRefresh: false,
+            };
+        case REFRESH_USER_ERROR:
+            return {
+                ...state,
+                data: {
+                    isAuthentication: false,
+                    dataLogin: "",
+                },
+                isLoadingRegister: false,
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
@@ -88,6 +102,18 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 data: {
                     isAuthentication: true,
                     dataLogin: action.payload,
+                },
+                isLoadingRegister: false,
+                isLoadingLogin: false,
+                isLoadingLogout: false,
+                isLoadingRefresh: false,
+            };
+        case LOGIN_AUTH_ERROR:
+            return {
+                ...state,
+                data: {
+                    isAuthentication: false,
+                    dataLogin: "",
                 },
                 isLoadingRegister: false,
                 isLoadingLogin: false,
