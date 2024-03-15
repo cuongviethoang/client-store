@@ -30,11 +30,11 @@ const createCusRedux = (username, phoneNumber) => {
         try {
             const res = await addNewCustomer(username, phoneNumber);
             console.log(">> check res add customer: ", res);
-            if (res && +res?.EC === 0) {
-                toast.success(res?.EM);
+            if (res && +res?.status === 200) {
+                toast.success(res?.data?.em);
                 dispatch(createCusSuccess());
             } else {
-                toast.error(res?.EM);
+                toast.error(res?.data?.em);
                 dispatch(createCusError());
             }
         } catch (e) {
@@ -74,6 +74,7 @@ const readCusPaginationRedux = (page, limit) => {
                 };
                 dispatch(readCusSuccess(data));
             } else {
+                toast.error(res?.data?.em);
                 dispatch(readCusError());
             }
         } catch (e) {
@@ -106,7 +107,12 @@ const detailCusRedux = (cusId) => {
         try {
             const res = await getCustomerDetail(cusId);
             console.log(">> check response cus detail: ", res);
-            dispatch(detailCusSuccess(res));
+            if (res && +res?.status === 200) {
+                dispatch(detailCusSuccess(res));
+            } else {
+                toast.error(res?.data?.em);
+                dispatch(detailCusError());
+            }
         } catch (e) {
             toast.error(
                 "Tải thông tin chi tiết người dùng thấy bại, vui lòng thử lại!"
@@ -139,11 +145,11 @@ const updateCusRedux = (user) => {
         try {
             const res = await updateCustomer(user);
             console.log(">> check response update user: ", res);
-            if (res && +res?.EC === 0) {
-                toast.success(res?.EM);
+            if (res && +res?.status === 200) {
+                toast.success(res?.data?.em);
                 dispatch(updateCusSuccess());
             } else {
-                toast.error(res?.EM);
+                toast.error(res?.data?.em);
                 dispatch(updateCusError());
             }
         } catch (e) {

@@ -46,27 +46,27 @@ instance.interceptors.response.use(
                         "Vui lòng đăng nhập đúng vai trò để thực hiện chức năng này"
                     );
                 }
-                return error.response.data;
+                return error.response;
             }
             case 403: {
-                return error.response.data;
+                return error.response;
             }
 
             case 400: {
-                return error.response.data;
+                return error.response;
             }
 
             case 404: {
-                return error.response.data;
+                return error.response;
             }
             case 409: {
-                return error.response.data;
+                return error.response;
             }
             case 422: {
-                return error.response.data;
+                return error.response;
             }
             case 500: {
-                return error.response.data;
+                return error.response;
             }
             default: {
                 return;

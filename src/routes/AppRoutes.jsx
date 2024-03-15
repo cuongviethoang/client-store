@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "../pages/NotFoundPage";
 import Login from "../pages/login/Login";
 import Home from "../pages/home/Home";
-import DetailCustomer from "../pages/DetailCustomer";
+import DetailCustomer from "../pages/managecustomer/DetailCustomer";
 import DetailProduct from "../pages/DetailProduct";
 import ManageCustomer from "../pages/managecustomer/ManageCustomers";
 import ManageUser from "../pages/ManageUser";

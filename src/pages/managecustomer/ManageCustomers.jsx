@@ -6,6 +6,7 @@ import {
 } from "../../redux/actions/customerAction";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
+import ModalCreateCustomer from "./ModalCreateCustomer";
 const ManageCustomers = () => {
     const dispatch = useDispatch();
     const listCus = useSelector((state) => state.cus.listCus);
@@ -14,6 +15,9 @@ const ManageCustomers = () => {
     );
     const isLoadingPagination = useSelector(
         (state) => state.cus.isLoadingPagination
+    );
+    const isCreateCusSuccess = useSelector(
+        (state) => state.cus.isCreateCusSuccess
     );
     const pageCus = useSelector((state) => state.cus.pageCus);
     const limitCus = useSelector((state) => state.cus.limitCus);
@@ -26,7 +30,7 @@ const ManageCustomers = () => {
 
     useEffect(() => {
         dispatch(allCusRedux());
-    }, []);
+    }, [isCreateCusSuccess]);
 
     useEffect(() => {
         dispatch(readCusPaginationRedux(currentPageCus, limitCus));
@@ -41,6 +45,19 @@ const ManageCustomers = () => {
     const handleDeleteUser = (customer) => {};
 
     const handleEditUser = (customer) => {};
+
+    const [showModalCreate, setShowModalCreate] = useState(false);
+    // const [showModalEdit, setShowModalEdit] = useState(false);
+    // const [dataModal, setDataModal] = useState({});
+
+    const handleOpenModalCreateCustomer = () => {
+        setShowModalCreate(true);
+    };
+
+    const handleCloseModalCreate = () => {
+        setShowModalCreate(false);
+    };
+
     return (
         <>
             <Container>
@@ -56,7 +73,10 @@ const ManageCustomers = () => {
                             >
                                 Refresh
                             </button>
-                            <button className="btn btn-info">
+                            <button
+                                className="btn btn-info"
+                                onClick={() => handleOpenModalCreateCustomer()}
+                            >
                                 Thêm mới khách hàng
                             </button>
                         </div>
@@ -158,6 +178,10 @@ const ManageCustomers = () => {
                         </div>
                     )}
                 </div>
+                <ModalCreateCustomer
+                    showModalCreate={showModalCreate}
+                    handleCloseModalCreate={handleCloseModalCreate}
+                />
             </Container>
         </>
     );
