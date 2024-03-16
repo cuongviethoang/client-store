@@ -11,12 +11,20 @@ import {
     UPDATE_CUS_REQUEST,
     UPDATE_CUS_ERROR,
     UPDATE_CUS_SUCCESS,
+    ALL_CUS_REQUEST,
+    ALL_CUS_ERROR,
+    ALL_CUS_SUCCESS,
+    SEARCH_CUS_REQUEST,
+    SEARCH_CUS_ERROR,
+    SEARCH_CUS_SUCCESS,
 } from "../types/customerType";
 import {
     addNewCustomer,
     getCustomerWithPagination,
     getCustomerDetail,
     updateCustomer,
+    getAllCusNum,
+    searchAllCusByValue,
 } from "../../services/customerService";
 import { toast } from "react-toastify";
 
@@ -26,11 +34,11 @@ const createCusRedux = (username, phoneNumber) => {
         try {
             const res = await addNewCustomer(username, phoneNumber);
             console.log(">> check res add customer: ", res);
-            if (res && +res?.EC === 0) {
-                toast.success(res?.EM);
+            if (res && +res?.status === 200) {
+                toast.success(res?.data?.em);
                 dispatch(createCusSuccess());
             } else {
-                toast.error(res?.EM);
+                toast.error(res?.data?.em);
                 dispatch(createCusError());
             }
         } catch (e) {
@@ -62,12 +70,17 @@ const readCusPaginationRedux = (page, limit) => {
         try {
             const res = await getCustomerWithPagination(page, limit);
             console.log(">> check response cus: ", res);
-            const data = {
-                page: page,
-                limit: limit,
-                res: res,
-            };
-            dispatch(readCusSuccess(data));
+            if (res && +res?.status === 200) {
+                const data = {
+                    page: page,
+                    limit: limit,
+                    res: res.data,
+                };
+                dispatch(readCusSuccess(data));
+            } else {
+                toast.error(res?.data?.em);
+                dispatch(readCusError());
+            }
         } catch (e) {
             toast.error("Tải thông tin khách hàng thất bại, vui lòng thử lại!");
             dispatch(readCusError());
@@ -98,7 +111,12 @@ const detailCusRedux = (cusId) => {
         try {
             const res = await getCustomerDetail(cusId);
             console.log(">> check response cus detail: ", res);
-            dispatch(detailCusSuccess(res));
+            if (res && +res?.status === 200) {
+                dispatch(detailCusSuccess(res));
+            } else {
+                toast.error(res?.data?.em);
+                dispatch(detailCusError());
+            }
         } catch (e) {
             toast.error(
                 "Tải thông tin chi tiết người dùng thấy bại, vui lòng thử lại!"
@@ -125,22 +143,26 @@ const detailCusSuccess = (payload) => {
     };
 };
 
-const updateCusRedux = (user) => {
+const updateCusRedux = (customer) => {
     return async (dispatch, getState) => {
         dispatch(updateCusRequest());
         try {
-            const res = await updateCustomer(user);
+            const res = await updateCustomer(
+                customer?.id,
+                customer?.username,
+                customer?.phoneNumber
+            );
             console.log(">> check response update user: ", res);
-            if (res && +res?.EC === 0) {
-                toast.success(res?.EM);
+            if (res && +res?.status === 200) {
+                toast.success(res?.data?.em);
                 dispatch(updateCusSuccess());
             } else {
-                toast.error(res?.EM);
+                toast.error(res?.data?.em);
                 dispatch(updateCusError());
             }
         } catch (e) {
             toast.error("Cập nhật thất bại, vui long thử lại!");
-            dispatch.error(updateCusError());
+            dispatch(updateCusError());
         }
     };
 };
@@ -161,9 +183,81 @@ const updateCusSuccess = () => {
     };
 };
 
+const allCusRedux = () => {
+    return async (dispatch, getState) => {
+        dispatch(allCusRequest());
+        try {
+            const res = await getAllCusNum();
+            console.log(">> check response all cus: ", res);
+            if (res && +res?.status === 200) {
+                dispatch(allCusSuccess(res?.data));
+            } else {
+                dispatch(allCusError());
+            }
+        } catch (e) {
+            dispatch(allCusError());
+        }
+    };
+};
+
+const allCusRequest = () => {
+    return {
+        type: ALL_CUS_REQUEST,
+    };
+};
+const allCusError = () => {
+    return {
+        type: ALL_CUS_ERROR,
+    };
+};
+const allCusSuccess = (payload) => {
+    return {
+        type: ALL_CUS_SUCCESS,
+        payload,
+    };
+};
+
+const searchCusRedux = (q, currentPage) => {
+    return async (dispatch, getState) => {
+        dispatch(searchCusRequest());
+        try {
+            const res = await searchAllCusByValue(q, currentPage);
+            console.log(">> check response search cus: ", res);
+            if (res && +res?.status === 200) {
+                dispatch(searchCusSuccess(res?.data));
+            } else {
+                toast.error("Không tìm thấy khách hàng");
+                dispatch(searchCusError());
+            }
+        } catch (e) {
+            toast.error("Lỗi tìm kiếm");
+            dispatch(searchCusError());
+        }
+    };
+};
+
+const searchCusRequest = () => {
+    return {
+        type: SEARCH_CUS_REQUEST,
+    };
+};
+const searchCusError = () => {
+    return {
+        type: SEARCH_CUS_ERROR,
+    };
+};
+const searchCusSuccess = (payload) => {
+    return {
+        type: SEARCH_CUS_SUCCESS,
+        payload,
+    };
+};
+
 export {
     createCusRedux,
     detailCusRedux,
     readCusPaginationRedux,
     updateCusRedux,
+    allCusRedux,
+    searchCusRedux,
 };

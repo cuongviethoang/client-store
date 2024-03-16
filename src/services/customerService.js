@@ -20,9 +20,24 @@ const getCustomerDetail = (cusId) => {
     return axios.get(`/api/customer/` + cusId);
 };
 
-const updateCustomer = (cus) => {
-    return axios.update("/api/customer/update", {
-        customer: cus,
+const updateCustomer = (id, username, phoneNumber) => {
+    return axios.put("/api/customer/update", {
+        id,
+        username,
+        phoneNumber,
+    });
+};
+
+const getAllCusNum = () => {
+    return axios.get("api/customer/read-all-number");
+};
+
+const searchAllCusByValue = (q, currentPage) => {
+    return axios.get("api/customer/search", {
+        params: {
+            q,
+            currentPage,
+        },
     });
 };
 
@@ -31,4 +46,6 @@ export {
     getCustomerWithPagination,
     getCustomerDetail,
     updateCustomer,
+    getAllCusNum,
+    searchAllCusByValue,
 };

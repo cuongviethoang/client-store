@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { fetchLogoutRedux } from "../../redux/actions/authAction";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -9,15 +9,20 @@ import "./Header.scss";
 
 import "./Header.scss";
 const Header = () => {
+    const navigation = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
     const user = useSelector((state) => state.auth.data);
+    const isLogoutSuccess = useSelector((state) => state.auth.isLogoutSuccess);
 
     const handleLogoutUser = async () => {
         dispatch(fetchLogoutRedux());
+        if (isLogoutSuccess) {
+            navigation("/");
+        }
     };
 
-    if (user.isAuthentication || location.pathname === "/") {
+    if (location.pathname !== "/login" && location.pathname !== "/register") {
         return (
             <>
                 <div className="nav-header">
@@ -37,20 +42,26 @@ const Header = () => {
                                         exact="true"
                                         className="nav-link"
                                     >
-                                        Home
+                                        Trang chủ
                                     </NavLink>
-                                    {/* <NavLink className="nav-link" to="/user">
-                                        User
-                                    </NavLink>
-                                    <NavLink className="nav-link" to="/roles">
-                                        Roles
-                                    </NavLink>
-                                    <NavLink
-                                        className="nav-link"
-                                        to="/group-role"
-                                    >
-                                        GroupRoles
-                                    </NavLink> */}
+                                    {user?.isAuthentication ? (
+                                        <>
+                                            <NavLink
+                                                className="nav-link"
+                                                to="/manage-user"
+                                            >
+                                                Quản lí nhân viên
+                                            </NavLink>
+                                            <NavLink
+                                                className="nav-link"
+                                                to="/manage-customer"
+                                            >
+                                                Quản lí khách hàng
+                                            </NavLink>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </Nav>
                                 <Nav>
                                     {user?.isAuthentication ? (
@@ -59,7 +70,7 @@ const Header = () => {
                                                 href="#deets"
                                                 className="nav-link"
                                             >
-                                                Welcome{" "}
+                                                Xin chào{" "}
                                                 {user?.dataLogin?.username} !
                                             </Nav.Item>
                                             <Link
@@ -68,7 +79,7 @@ const Header = () => {
                                                     handleLogoutUser()
                                                 }
                                             >
-                                                Logout
+                                                Đăng xuất
                                             </Link>
                                         </>
                                     ) : (
@@ -77,7 +88,7 @@ const Header = () => {
                                             exact="true"
                                             className="nav-link"
                                         >
-                                            Login
+                                            Đăng nhập
                                         </NavLink>
                                     )}
                                 </Nav>

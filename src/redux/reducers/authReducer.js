@@ -19,6 +19,7 @@ const INITIAL_STATE = {
     isLoadingRegister: false,
     isLoadingLogin: false,
     isLoadingLogout: false,
+    isLogoutSuccess: false,
     isLoadingRefresh: false,
 };
 
@@ -35,6 +36,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: true,
+                isLogoutSuccess: false,
             };
         case REFRESH_USER_SUCCESS:
             return {
@@ -47,6 +49,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case REFRESH_USER_ERROR:
             return {
@@ -59,6 +62,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case REGISTER_AUTH_REQUEST:
             return {
@@ -71,6 +75,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case REGISTER_AUTH_SUCCESS:
             return {
@@ -83,6 +88,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case LOGIN_AUTH_REQUEST:
             return {
@@ -95,6 +101,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: true,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case LOGIN_AUTH_SUCCESS:
             return {
@@ -107,6 +114,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case LOGIN_AUTH_ERROR:
             return {
@@ -119,6 +127,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case LOGOUT_AUTH_REQUEST:
             return {
@@ -131,6 +140,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: true,
                 isLoadingRefresh: false,
+                isLogoutSuccess: false,
             };
         case LOGOUT_AUTH_SUCCESS:
             return {
@@ -143,6 +153,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isLoadingLogin: false,
                 isLoadingLogout: false,
                 isLoadingRefresh: false,
+                isLogoutSuccess: true,
             };
         default:
             return state;

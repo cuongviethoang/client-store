@@ -1,0 +1,17 @@
+.modal-user {
+    .content-body {
+        .red {
+            color: red;
+        }
+    }
+}
+
+.manage-users-container {
+    i {
+        padding-right: 5px;
+    }
+}
+.disable {
+    pointer-events: none;
+    opacity: 0;
+}
