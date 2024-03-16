@@ -10,7 +10,7 @@ import {
 
 import "./ManageCustomer.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
     const dispatch = useDispatch();

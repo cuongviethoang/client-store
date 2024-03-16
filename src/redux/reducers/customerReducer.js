@@ -14,6 +14,9 @@ import {
     ALL_CUS_REQUEST,
     ALL_CUS_ERROR,
     ALL_CUS_SUCCESS,
+    SEARCH_CUS_REQUEST,
+    SEARCH_CUS_ERROR,
+    SEARCH_CUS_SUCCESS,
 } from "../types/customerType";
 
 const INITIAL_STATE = {
@@ -26,6 +29,8 @@ const INITIAL_STATE = {
     isLoadingUpdateCus: false,
     isUpdateCusSuccess: false,
     isLoadingDetailCus: false,
+    isSearchLoading: false,
+    dataCusSearch: "",
     pageCus: 1,
     limitCus: 10,
     totalCus: "",
@@ -43,7 +48,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isCreateCusSuccess: false,
                 isLoadingUpdateCus: false,
                 isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case READ_CUS_SUCCESS: // phân trang thành công
             return {
@@ -57,7 +61,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isCreateCusSuccess: false,
                 isLoadingUpdateCus: false,
                 isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case READ_CUS_ERROR: // phân trang thất bại
             return {
@@ -66,9 +69,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case ALL_CUS_REQUEST: // yêu cầu lấy số lượng khách hàng
             return {
@@ -78,9 +78,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case ALL_CUS_SUCCESS: // lấy số lượng khách hàng thành công
             return {
@@ -90,9 +87,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case ALL_CUS_ERROR: // lấy số lượng khách hàng thất bại
             return {
@@ -102,9 +96,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case CREATE_CUS_REQUEST: // yêu cầu tạo mới người dùng
             return {
@@ -113,9 +104,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: true,
                 isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case CREATE_CUS_SUCCESS:
             return {
@@ -124,9 +112,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isCreateCusSuccess: true,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case CREATE_CUS_ERROR:
             return {
@@ -135,19 +120,12 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 isLoadingPagination: false,
                 isLoadingCreateCus: false,
                 isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case DETAIL_CUS_REQUEST:
             return {
                 ...state,
                 isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
-                isLoadingCreateCus: false,
-                isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
                 isLoadingDetailCus: true,
             };
         case DETAIL_CUS_SUCCESS:
@@ -156,10 +134,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 cus: action.payload,
                 isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
-                isLoadingCreateCus: false,
-                isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
                 isLoadingDetailCus: false,
             };
         case DETAIL_CUS_ERROR:
@@ -167,10 +141,6 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
-                isLoadingCreateCus: false,
-                isCreateCusSuccess: false,
-                isLoadingUpdateCus: false,
-                isUpdateCusSuccess: false,
                 isLoadingDetailCus: false,
             };
         case UPDATE_CUS_REQUEST:
@@ -178,33 +148,42 @@ const customerReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
-                isLoadingCreateCus: false,
-                isCreateCusSuccess: false,
                 isLoadingUpdateCus: true,
                 isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
             };
         case UPDATE_CUS_SUCCESS:
             return {
                 ...state,
                 isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
-                isLoadingCreateCus: false,
-                isCreateCusSuccess: false,
                 isLoadingUpdateCus: false,
                 isUpdateCusSuccess: true,
-                isLoadingDetailCus: false,
             };
         case UPDATE_CUS_ERROR:
             return {
                 ...state,
                 isLoadingAllCusNumber: false,
                 isLoadingPagination: false,
-                isLoadingCreateCus: false,
-                isCreateCusSuccess: false,
                 isLoadingUpdateCus: false,
                 isUpdateCusSuccess: false,
-                isLoadingDetailCus: false,
+            };
+        case SEARCH_CUS_REQUEST:
+            return {
+                ...state,
+                isSearchLoading: true,
+                dataCusSearch: "",
+            };
+        case SEARCH_CUS_ERROR:
+            return {
+                ...state,
+                isSearchLoading: false,
+                dataCusSearch: "",
+            };
+        case SEARCH_CUS_SUCCESS:
+            return {
+                ...state,
+                isSearchLoading: false,
+                dataCusSearch: action.payload,
             };
         default:
             return state;

@@ -14,6 +14,9 @@ import {
     ALL_CUS_REQUEST,
     ALL_CUS_ERROR,
     ALL_CUS_SUCCESS,
+    SEARCH_CUS_REQUEST,
+    SEARCH_CUS_ERROR,
+    SEARCH_CUS_SUCCESS,
 } from "../types/customerType";
 import {
     addNewCustomer,
@@ -21,6 +24,7 @@ import {
     getCustomerDetail,
     updateCustomer,
     getAllCusNum,
+    searchAllCusByValue,
 } from "../../services/customerService";
 import { toast } from "react-toastify";
 
@@ -139,11 +143,15 @@ const detailCusSuccess = (payload) => {
     };
 };
 
-const updateCusRedux = (user) => {
+const updateCusRedux = (customer) => {
     return async (dispatch, getState) => {
         dispatch(updateCusRequest());
         try {
-            const res = await updateCustomer(user);
+            const res = await updateCustomer(
+                customer?.id,
+                customer?.username,
+                customer?.phoneNumber
+            );
             console.log(">> check response update user: ", res);
             if (res && +res?.status === 200) {
                 toast.success(res?.data?.em);
@@ -154,7 +162,7 @@ const updateCusRedux = (user) => {
             }
         } catch (e) {
             toast.error("Cập nhật thất bại, vui long thử lại!");
-            dispatch.error(updateCusError());
+            dispatch(updateCusError());
         }
     };
 };
@@ -197,16 +205,50 @@ const allCusRequest = () => {
         type: ALL_CUS_REQUEST,
     };
 };
-
 const allCusError = () => {
     return {
         type: ALL_CUS_ERROR,
     };
 };
-
 const allCusSuccess = (payload) => {
     return {
         type: ALL_CUS_SUCCESS,
+        payload,
+    };
+};
+
+const searchCusRedux = (q, currentPage) => {
+    return async (dispatch, getState) => {
+        dispatch(searchCusRequest());
+        try {
+            const res = await searchAllCusByValue(q, currentPage);
+            console.log(">> check response search cus: ", res);
+            if (res && +res?.status === 200) {
+                dispatch(searchCusSuccess(res?.data));
+            } else {
+                toast.error("Không tìm thấy khách hàng");
+                dispatch(searchCusError());
+            }
+        } catch (e) {
+            toast.error("Lỗi tìm kiếm");
+            dispatch(searchCusError());
+        }
+    };
+};
+
+const searchCusRequest = () => {
+    return {
+        type: SEARCH_CUS_REQUEST,
+    };
+};
+const searchCusError = () => {
+    return {
+        type: SEARCH_CUS_ERROR,
+    };
+};
+const searchCusSuccess = (payload) => {
+    return {
+        type: SEARCH_CUS_SUCCESS,
         payload,
     };
 };
@@ -217,4 +259,5 @@ export {
     readCusPaginationRedux,
     updateCusRedux,
     allCusRedux,
+    searchCusRedux,
 };

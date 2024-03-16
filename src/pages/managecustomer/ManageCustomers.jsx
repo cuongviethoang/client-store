@@ -7,6 +7,8 @@ import {
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 import ModalCreateCustomer from "./ModalCreateCustomer";
+import ModalEditCustomer from "./ModalEditCustomer";
+import ModalSearchCustomer from "./ModalSearchCustomer";
 const ManageCustomers = () => {
     const dispatch = useDispatch();
     const listCus = useSelector((state) => state.cus.listCus);
@@ -40,15 +42,13 @@ const ManageCustomers = () => {
         setCurrentPageCus(+event.selected + 1);
     };
 
-    const handleRefresh = async () => {};
-
-    const handleDeleteUser = (customer) => {};
-
-    const handleEditUser = (customer) => {};
+    const handleRefresh = async () => {
+        dispatch(readCusPaginationRedux(currentPageCus, limitCus));
+    };
 
     const [showModalCreate, setShowModalCreate] = useState(false);
-    // const [showModalEdit, setShowModalEdit] = useState(false);
-    // const [dataModal, setDataModal] = useState({});
+    const [showModalEdit, setShowModalEdit] = useState(false);
+    const [dataModal, setDataModal] = useState({});
 
     const handleOpenModalCreateCustomer = () => {
         setShowModalCreate(true);
@@ -57,6 +57,19 @@ const ManageCustomers = () => {
     const handleCloseModalCreate = () => {
         setShowModalCreate(false);
     };
+
+    const handleOpenModalEditCustomer = (customer) => {
+        setShowModalEdit(true);
+        setDataModal(customer);
+    };
+
+    const handleCloseModalEdit = () => {
+        setShowModalEdit(false);
+        setDataModal({});
+    };
+
+    // ModalSearchCustomer
+    const [modalSearchShow, setModalSearchShow] = useState(false);
 
     return (
         <>
@@ -74,10 +87,16 @@ const ManageCustomers = () => {
                                 Refresh
                             </button>
                             <button
-                                className="btn btn-info"
+                                className="btn btn-info me-3"
                                 onClick={() => handleOpenModalCreateCustomer()}
                             >
                                 Thêm mới khách hàng
+                            </button>
+                            <button
+                                className="btn btn-info"
+                                onClick={() => setModalSearchShow(true)}
+                            >
+                                Push
                             </button>
                         </div>
                     </div>
@@ -116,21 +135,14 @@ const ManageCustomers = () => {
                                                             <button
                                                                 className="btn btn-warning"
                                                                 onClick={() =>
-                                                                    handleEditUser(
+                                                                    handleOpenModalEditCustomer(
                                                                         item
                                                                     )
                                                                 }
                                                             >
                                                                 Sửa
                                                             </button>
-                                                            <button
-                                                                className="btn btn-danger"
-                                                                onClick={() =>
-                                                                    handleDeleteUser(
-                                                                        item
-                                                                    )
-                                                                }
-                                                            >
+                                                            <button className="btn btn-danger">
                                                                 Xóa
                                                             </button>
                                                         </td>
@@ -181,6 +193,16 @@ const ManageCustomers = () => {
                 <ModalCreateCustomer
                     showModalCreate={showModalCreate}
                     handleCloseModalCreate={handleCloseModalCreate}
+                />
+                <ModalEditCustomer
+                    showModalEdit={showModalEdit}
+                    handleCloseModalEdit={handleCloseModalEdit}
+                    customer={dataModal}
+                />
+                <ModalSearchCustomer
+                    show={modalSearchShow}
+                    onHide={() => setModalSearchShow(false)}
+                    valueBegin=""
                 />
             </Container>
         </>
