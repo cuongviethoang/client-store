@@ -62,6 +62,12 @@ const Header = () => {
                                     ) : (
                                         <></>
                                     )}
+                                    <NavLink
+                                        to="/invoices"
+                                        exact="true"
+                                        className="nav-link">
+                                        Quản lý đơn hàng
+                                    </NavLink>
                                 </Nav>
                                 <Nav>
                                     {user?.isAuthentication ? (
