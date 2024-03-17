@@ -1,0 +1,158 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 100%;
+    line-height:1.6rem ;
+    box-sizing: border-box;
+}
+.grid{
+    width: 100vw;
+    max-width: 100%;
+    padding: 0 20px;
+    height: 95vh;
+    overflow: hidden;
+    background-color: rgb(228, 228, 228);
+    /* background-image: url(https://img4.thuthuatphanmem.vn/uploads/2020/07/30/background-khai-giang-cuc-dep_024036461.jpg)  ;
+    background-size: 100%;
+    background-position: center top; */
+}
+.grid-row{
+    display: flex;
+}
+.grid-column-2{
+    width: 15%;
+}
+/* side bar */
+.sidebar{
+    margin-right: 20px;
+
+}
+.side-bar__header{
+    font-size: 22px;
+    font-weight: 500;
+    height: 55px;
+}
+/* filter time */
+.order-filter__time{
+    padding: 15px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(212, 211, 211);
+}
+.filter-time__header{
+    font-weight: 500;
+}
+.order-filter__time label{
+    width: 40px;
+}
+.time-start{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.time-start input{
+    font-size: 14px;
+    width: calc(100% - 40px);
+}
+.time-end input{
+    font-size: 14px;
+    width: calc(100% - 40px);
+    margin-bottom: 20px;
+}
+.btnFitlerTime{
+    width: 50%;
+    margin:0 25%;
+}
+/* filter status */
+.order-filter__status{
+    height: 300px;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgb(212, 211, 211);
+}
+/* invoice */
+.grid-column-8{
+    width: 85%;
+}
+.order-searching__wrapper{
+    display: flex;
+    align-items: center;
+    width: 40%;
+    height: 35px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding-inline-start: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.order-searching__input{
+    flex: 1;
+    margin-left: 10px;
+    height: 100%;
+    border: none;
+    outline: none;
+}
+.table-invoice{
+    border-radius: 5px;
+    overflow: hidden;
+}
+.invoice-list{
+    list-style: none;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    overflow: hidden;
+    height: 570px;
+}
+.invoice-line{
+    display: flex;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: white;
+}
+.invoice-line:hover{
+    background-color: rgb(229, 243, 251) !important;
+    cursor: pointer;
+}
+.table-invoice-header,.table-invoice-header:hover{
+    background-color: rgb(184, 240, 255) !important;
+}
+
+.invoice-id{
+    flex: 1;
+}
+.invoice-time{
+    flex:1 ;
+}
+.invoice-cust{
+    flex: 2;
+}
+.invoice-total{
+    flex: 1;
+    text-align: end;
+}
+.invoice-sale{
+    flex: 1;
+    text-align: end;
+}
+.invoice-paid{
+    flex: 1;
+    text-align: end;
+}
+.table-index{
+    display: flex;
+    width: 200px;
+    margin-left: 20px;
+    margin-top: 15px;
+    justify-content: space-evenly;
+    align-items: center;
+}   
+.table-rows{
+    min-width: 100px;
+}
+
