@@ -33,7 +33,7 @@ const Header = () => {
                         className="bg-body-tertiary"
                     >
                         <Container>
-                            <Navbar.Brand href="/">FullStack</Navbar.Brand>
+                            <Navbar.Brand href="/">Co.Op mart</Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">

@@ -78,7 +78,7 @@ const fetchLoginRedux = (valueLogin, password) => {
                 toast.success("Đăng nhập thành công");
                 dispatch(fetchLoginSuccess(res?.data));
             } else {
-                toast.error(res?.em);
+                toast.error(res?.data?.em);
                 dispatch(fetchLoginError());
             }
         } catch (e) {
