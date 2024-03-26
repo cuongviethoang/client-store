@@ -96,7 +96,7 @@ const ManageCustomers = () => {
                                 className="btn btn-info"
                                 onClick={() => setModalSearchShow(true)}
                             >
-                                Push
+                                Tìm kiếm khách hàng
                             </button>
                         </div>
                     </div>
@@ -105,15 +105,15 @@ const ManageCustomers = () => {
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Phone number</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Số điện thoại</th>
+                                    <th scope="col">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody className="text-center">
                                 {isLoadingAllCusNumber &&
                                 isLoadingPagination ? (
-                                    <p>Vui lòng đợi tỏng giây lát</p>
+                                    <p>Vui lòng đợi trong giây lát</p>
                                 ) : (
                                     <>
                                         {listCus && listCus.length > 0 ? (
@@ -132,6 +132,9 @@ const ManageCustomers = () => {
                                                             {item.phoneNumber}
                                                         </td>
                                                         <td className="d-flex justify-content-center gap-3">
+                                                            <button className="btn btn-success">
+                                                                Xem các đơn hàng
+                                                            </button>
                                                             <button
                                                                 className="btn btn-warning"
                                                                 onClick={() =>
@@ -202,7 +205,6 @@ const ManageCustomers = () => {
                 <ModalSearchCustomer
                     show={modalSearchShow}
                     onHide={() => setModalSearchShow(false)}
-                    valueBegin=""
                 />
             </Container>
         </>

@@ -9,12 +9,20 @@ import { useEffect, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
 import { searchCusRedux } from "../../redux/actions/customerAction";
 import ReactPaginate from "react-paginate";
+import ModalCreateCustomer from "./ModalCreateCustomer";
+import ModalEditCustomer from "./ModalEditCustomer";
 
 const ModalSearchCustomer = (props) => {
     const dispatch = useDispatch();
     const dataCusSearch = useSelector((state) => state.cus.dataCusSearch);
     const isSearchLoading = useSelector((state) => state.cus.isSearchLoading);
     const [currentPage, setCurrentPage] = useState(1);
+    const isCreateCusSuccess = useSelector(
+        (state) => state.cus.isCreateCusSuccess
+    );
+    const isUpdateCusSuccess = useSelector(
+        (state) => state.cus.isUpdateCusSuccess
+    );
 
     const [searchValue, setSearchValue] = useState("");
     const debouncedValue = useDebounce(searchValue, 1000);
@@ -28,6 +36,18 @@ const ModalSearchCustomer = (props) => {
     useEffect(() => {
         dispatch(searchCusRedux(debouncedValue, 1));
     }, [debouncedValue]);
+
+    useEffect(() => {
+        if (isCreateCusSuccess === true) {
+            dispatch(searchCusRedux(debouncedValue, 1));
+        }
+    }, [isCreateCusSuccess]);
+
+    useEffect(() => {
+        if (isUpdateCusSuccess) {
+            dispatch(searchCusRedux(debouncedValue, currentPage));
+        }
+    }, [isUpdateCusSuccess]);
 
     useEffect(() => {
         dispatch(searchCusRedux(debouncedValue, currentPage));
@@ -44,6 +64,30 @@ const ModalSearchCustomer = (props) => {
         setCurrentPage(+event.selected + 1);
     };
 
+    // thêm khách hàng
+    const [showModalCreate, setShowModalCreate] = useState(false);
+    const handleCloseModalCreate = () => {
+        setShowModalCreate(false);
+    };
+
+    const handleOpenModalCreateCustomer = () => {
+        setShowModalCreate(true);
+    };
+
+    // sửa khách hàng
+    const [showModalEdit, setShowModalEdit] = useState(false);
+    const [dataModal, setDataModal] = useState({});
+
+    const handleOpenModalEditCustomer = (customer) => {
+        setShowModalEdit(true);
+        setDataModal(customer);
+    };
+
+    const handleCloseModalEdit = () => {
+        setShowModalEdit(false);
+        setDataModal({});
+    };
+
     return (
         <>
             <Modal
@@ -51,6 +95,7 @@ const ModalSearchCustomer = (props) => {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className={showModalCreate || showModalEdit ? "disable" : ""}
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
@@ -67,7 +112,10 @@ const ModalSearchCustomer = (props) => {
                             aria-label="Default"
                             aria-describedby="inputGroup-sizing-default"
                         />
-                        <button className="btn btn-info">
+                        <button
+                            className="btn btn-success"
+                            onClick={() => handleOpenModalCreateCustomer()}
+                        >
                             Thêm khách hàng
                         </button>
                     </InputGroup>
@@ -77,8 +125,8 @@ const ModalSearchCustomer = (props) => {
                             <tr>
                                 <th>No</th>
                                 <th>Username</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Số điện thoại</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,9 +136,8 @@ const ModalSearchCustomer = (props) => {
                                         Vui lòng chờ trong giây lát
                                     </td>
                                 </tr>
-                            ) : (
-                                dataCusSearch &&
-                                dataCusSearch?.data.length > 0 &&
+                            ) : dataCusSearch &&
+                              dataCusSearch?.data.length > 0 ? (
                                 dataCusSearch?.data.map((item, index) => (
                                     <tr key={`search-${index}`}>
                                         <td>
@@ -102,12 +149,33 @@ const ModalSearchCustomer = (props) => {
                                         <td>{item?.username}</td>
                                         <td>{item?.phoneNumber}</td>
                                         <td>
-                                            <button className="btn btn-warning">
+                                            <button className="btn btn-info me-3">
+                                                Xem
+                                            </button>
+                                            <button
+                                                className="btn btn-warning me-3"
+                                                onClick={() =>
+                                                    handleOpenModalEditCustomer(
+                                                        item
+                                                    )
+                                                }
+                                            >
                                                 Sửa
+                                            </button>
+                                            <button className="btn btn-success me-3">
+                                                Chọn
                                             </button>
                                         </td>
                                     </tr>
                                 ))
+                            ) : (
+                                <>
+                                    <tr>
+                                        <td colSpan={4}>
+                                            Không có trong hệ thống
+                                        </td>
+                                    </tr>
+                                </>
                             )}
                         </tbody>
                     </Table>
@@ -141,6 +209,15 @@ const ModalSearchCustomer = (props) => {
                     <Button onClick={props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal>
+            <ModalCreateCustomer
+                showModalCreate={showModalCreate}
+                handleCloseModalCreate={handleCloseModalCreate}
+            />
+            <ModalEditCustomer
+                showModalEdit={showModalEdit}
+                handleCloseModalEdit={handleCloseModalEdit}
+                customer={dataModal}
+            />
         </>
     );
 };
