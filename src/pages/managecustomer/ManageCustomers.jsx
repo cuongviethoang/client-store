@@ -105,7 +105,7 @@ const ManageCustomers = () => {
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Tê</th>
+                                    <th scope="col">Tên</th>
                                     <th scope="col">Số điện thoại</th>
                                     <th scope="col">Hành động</th>
                                 </tr>
@@ -132,6 +132,9 @@ const ManageCustomers = () => {
                                                             {item.phoneNumber}
                                                         </td>
                                                         <td className="d-flex justify-content-center gap-3">
+                                                            <button className="btn btn-success">
+                                                                Xem các đơn hàng
+                                                            </button>
                                                             <button
                                                                 className="btn btn-warning"
                                                                 onClick={() =>
