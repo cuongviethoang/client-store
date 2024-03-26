@@ -40,7 +40,7 @@ const AppRoutes = (props) => {
                         <PrivateRoutes>{<DetailCustomer />}</PrivateRoutes>
                     }
                 />
-                <Route path='/invoices' element={<Invoices/>}/>
+                <Route path='/invoices' element={<PrivateRoutes>{<Invoices/>}</PrivateRoutes>}/>
                 <Route path="/*" element={<NotFoundPage />}></Route>
             </Routes>
         </>
