@@ -113,7 +113,7 @@ const ManageCustomers = () => {
                             <tbody className="text-center">
                                 {isLoadingAllCusNumber &&
                                 isLoadingPagination ? (
-                                    <p>Vui lòng đợi tỏng giây lát</p>
+                                    <p>Vui lòng đợi trong giây lát</p>
                                 ) : (
                                     <>
                                         {listCus && listCus.length > 0 ? (

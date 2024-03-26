@@ -8,6 +8,7 @@ import ManageCustomer from "../pages/managecustomer/ManageCustomers";
 import ManageUser from "../pages/ManageUser";
 import ManageProduct from "../pages/ManageProduct";
 import PrivateRoutes from "./PrivateRoutes";
+import Invoices from "../pages/invoice/Invoices";
 
 const AppRoutes = (props) => {
     return (
@@ -39,6 +40,7 @@ const AppRoutes = (props) => {
                         <PrivateRoutes>{<DetailCustomer />}</PrivateRoutes>
                     }
                 />
+                <Route path='/invoices' element={<PrivateRoutes>{<Invoices/>}</PrivateRoutes>}/>
                 <Route path="/*" element={<NotFoundPage />}></Route>
             </Routes>
         </>

@@ -1,0 +1,170 @@
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.modal-body {
+    margin: auto;
+}
+
+.order-detail {
+    position: relative;
+    width: 1200px;
+    max-width: 95%;
+    height: 80vh;
+    padding: 30px;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px gray;
+}
+
+.btnClose i {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 25px;
+    color: gray;
+    cursor: pointer;
+}
+
+.btnClose i:hover {
+    color: rgb(159, 12, 12);
+}
+
+.order-information {
+    display: flex;
+}
+
+.order-information_item {
+    display: flex;
+    justify-content: left;
+    border-bottom: 1px solid rgb(229, 229, 229);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.order-information_item-label {
+    width: 170px;
+}
+
+.order-information_item-content {
+    font-weight: 700;
+}
+
+/* danh sach san pham*/
+.table-item_orders {
+    border-radius: 5px;
+}
+
+.item_order-list {
+    list-style: none;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    overflow-y: auto;
+    max-height: 350px;
+}
+
+/* For Chrome */
+.item_order-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.item_order-list::-webkit-scrollbar-thumb {
+    background-color: rgb(74, 175, 234);
+    border-radius: 4px;
+}
+
+.item_order-line {
+    display: flex;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    background-color: white;
+    align-items: center;
+}
+
+.item_order-line:hover {
+    background-color: rgb(229, 243, 251) !important;
+    cursor: pointer;
+}
+
+.table-item_order-header,
+.table-item_order-header:hover {
+    font-weight: 700;
+    background-color: rgb(184, 240, 255) !important;
+    position: sticky;
+    top: 0;
+}
+
+.item_order-product_code {
+    flex: 1;
+}
+
+.item_order-product_image {
+    flex: 1;
+}
+
+.item_order-product_name {
+    flex: 1;
+}
+
+.item_order-quantity {
+    flex: 1;
+    text-align: right;
+}
+
+.item_order-product_price {
+    flex: 1;
+    text-align: right;
+}
+
+.item_order-discount {
+    flex: 1;
+    text-align: right;
+}
+
+.item_order-price {
+    flex: 1;
+    text-align: right;
+}
+
+.item_order-total {
+    flex: 1;
+    text-align: right;
+    font-weight: 700;
+
+}
+
+.item_orders-total-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-top: 20px;
+}
+
+.item_orders-total_quantity,
+.item_orders-total_price,
+.item_orders-cust_paid,
+.item_orders-refunds,
+.item_orders-discount,
+.item_orders-needed_pay {
+    display: flex;
+    font-size: 18px;
+    width: 300px;
+    font-weight: 600;
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+.item_orders-total-wrapper .label {
+    font-weight: 500;
+    text-align: right;
+    width: 60%;
+}
