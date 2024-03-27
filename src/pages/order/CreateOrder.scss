@@ -1,0 +1,70 @@
+// Variables
+$primary-color: #007bff;
+$secondary-color: #0056b3;
+$background-color: #f2f2f2;
+$input-padding: 8px;
+
+// CreateOrder.scss
+
+.create-order-container {
+  width: 95vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-section {
+  flex: 1;
+  padding: 20px;
+  margin-right: 20px; // Giảm khoảng cách giữa left và right sections
+}
+
+.right-section {
+  flex: 2;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; // Thêm khoảng cách giữa bảng và các phần khác
+  border: 1px solid #ddd; // Thêm viền cho bảng
+}
+
+th,
+td {
+  padding: $input-padding;
+}
+
+th {
+  background-color: $background-color;
+}
+
+.total {
+  margin-top: 20px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: calc(100% - 16px); // Giảm padding của input để fit vào container
+  padding: $input-padding;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: $primary-color;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px; // Thêm khoảng cách giữa các nút
+}
+
+button:hover {
+  background-color: $secondary-color;
+}
+
+.confirm-button {
+  text-align: center;
+  margin-top: 20px; /* Điều chỉnh khoảng cách giữa nút xác nhận và phần trên */
+}
