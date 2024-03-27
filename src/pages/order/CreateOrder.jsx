@@ -80,13 +80,23 @@ function CreateOrder() {
   };
 
   const handleAddToOrder = (product, quantity) => {
-    const newItem = {
-      code: product.id,
-      name: product.productName,
-      price: product.price,
-      quantity: quantity,
-    };
-    setItems([...items, newItem]);
+    const productId = product.id;
+    if (isProductExist(productId)) {
+      const updatedItems = items.map((item) =>
+        item.code === productId
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+      setItems(updatedItems);
+    } else {
+      const newItem = {
+        code: product.id,
+        name: product.productName,
+        price: product.price,
+        quantity: quantity,
+      };
+      setItems([...items, newItem]);
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -154,6 +164,10 @@ function CreateOrder() {
     setSelectedUserId(selectedId);
   };
 
+  const isProductExist = (productId) => {
+    return items.some((item) => item.code === productId);
+  };
+
   return (
     <div className="create-order-container">
       {/* Phần bên trái */}
@@ -175,12 +189,12 @@ function CreateOrder() {
         </div>
         <div>
           <h3>Tên khách hàng</h3>
-          <input
+          {/* <input
             type="text"
             placeholder="Nhập tên khách hàng"
             value={customerName}
             // onChange={(e) => setCustomerName(e.target.value)}
-          />
+          /> */}
           <select value={selectedCustomerId} onChange={handleCustomerSelect}>
             <option value="">Chọn khách hàng</option>
             {customers.map((customer) => (
@@ -291,7 +305,13 @@ function CreateOrder() {
             type="number"
             placeholder="Nhập số tiền khách đưa"
             value={cashAmount}
-            onChange={(e) => setCashAmount(e.target.value)}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              if (/^\d*\.?\d*$/.test(inputValue)) {
+                // Kiểm tra xem giá trị nhập vào có phải là số không âm không
+                setCashAmount(inputValue); // Nếu là số không âm, cập nhật giá trị
+              }
+            }}
           />
         </div>
         <div>
