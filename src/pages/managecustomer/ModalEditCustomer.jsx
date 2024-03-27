@@ -11,7 +11,6 @@ import {
 import "./ManageCustomer.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
 
 const ModalEditCustomer = (props) => {
     const { showModalEdit, handleCloseModalEdit, customer } = props;
@@ -45,10 +44,10 @@ const ModalEditCustomer = (props) => {
     }, [customer]);
 
     // regex phone
-    // const isValidPhone = (phone) =>
-    //     /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(
-    //         phone
-    //     );
+    const isValidPhone = (phone) =>
+        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(
+            phone
+        );
 
     const checkValueEdit = (username, phoneNumber) => {
         setCheckValid(defaultValue);
@@ -73,10 +72,10 @@ const ModalEditCustomer = (props) => {
             toast.info("Không có bất kỳ sự thay đổi nào!");
             return false;
         }
-        // if (!isValidPhone(phoneNumber)) {
-        //     toast.info("Đây không phải số điện thoại hợp lệ");
-        //     return false;
-        // }
+        if (!isValidPhone(phoneNumber)) {
+            toast.info("Đây không phải số điện thoại hợp lệ");
+            return false;
+        }
         return true;
     };
 
