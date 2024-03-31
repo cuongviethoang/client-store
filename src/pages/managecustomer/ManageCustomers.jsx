@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ModalCreateCustomer from "./ModalCreateCustomer";
 import ModalEditCustomer from "./ModalEditCustomer";
 import ModalSearchCustomer from "./ModalSearchCustomer";
+import { Link } from "react-router-dom";
 const ManageCustomers = () => {
     const dispatch = useDispatch();
     const listCus = useSelector((state) => state.cus.listCus);
@@ -77,7 +78,7 @@ const ManageCustomers = () => {
                 <div className="manage-users-container">
                     <div className="user-header my-3">
                         <div className="title">
-                            <h3>Manager user</h3>
+                            <h3>Quản lí khách hàng</h3>
                         </div>
                         <div className="action">
                             <button
@@ -132,9 +133,14 @@ const ManageCustomers = () => {
                                                             {item.phoneNumber}
                                                         </td>
                                                         <td className="d-flex justify-content-center gap-3">
-                                                            <button className="btn btn-success">
-                                                                Xem các đơn hàng
-                                                            </button>
+                                                            <Link
+                                                                to={`/manage-order-of-customer/${item.id}`}
+                                                            >
+                                                                <button className="btn btn-success">
+                                                                    Xem các đơn
+                                                                    hàng
+                                                                </button>
+                                                            </Link>
                                                             <button
                                                                 className="btn btn-warning"
                                                                 onClick={() =>
@@ -144,9 +150,6 @@ const ManageCustomers = () => {
                                                                 }
                                                             >
                                                                 Sửa
-                                                            </button>
-                                                            <button className="btn btn-danger">
-                                                                Xóa
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -205,6 +208,8 @@ const ManageCustomers = () => {
                 <ModalSearchCustomer
                     show={modalSearchShow}
                     onHide={() => setModalSearchShow(false)}
+                    btnManageOrder={true}
+                    btnSelect={false}
                 />
             </Container>
         </>
