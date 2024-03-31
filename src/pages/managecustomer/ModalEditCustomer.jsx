@@ -108,11 +108,16 @@ const ModalEditCustomer = (props) => {
 
     const handleCloseConfirmEdit = () => setConfirmEdit(false);
 
+    const handleCloseEdit = () => {
+        handleCloseModalEdit();
+        setCheckValid(defaultValue);
+    };
+
     return (
         <>
             <Modal
                 show={showModalEdit}
-                onHide={handleCloseModalEdit}
+                onHide={handleCloseEdit}
                 className={confirmEdit ? "disable" : ""}
             >
                 <Modal.Header closeButton>
@@ -158,7 +163,7 @@ const ModalEditCustomer = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModalEdit}>
+                    <Button variant="secondary" onClick={handleCloseEdit}>
                         Đóng
                     </Button>
                     <Button variant="primary" onClick={handleOpenConfirmEdit}>

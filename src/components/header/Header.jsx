@@ -37,7 +37,7 @@ const Header = () => {
                         className="bg-body-tertiary"
                     >
                         <Container>
-                            <Navbar.Brand href="/">FullStack</Navbar.Brand>
+                            <Navbar.Brand href="/">CoOp mart</Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
@@ -50,12 +50,6 @@ const Header = () => {
                                     </NavLink>
                                     {user?.isAuthentication ? (
                                         <>
-                                            <NavLink
-                                                className="nav-link"
-                                                to="/manage-user"
-                                            >
-                                                Quản lí nhân viên
-                                            </NavLink>
                                             <NavLink
                                                 className="nav-link"
                                                 to="/manage-customer"
@@ -86,10 +80,10 @@ const Header = () => {
                                         <>
                                             <Nav.Item
                                                 href="#deets"
-                                                className="nav-link"
+                                                className="nav-link active"
                                             >
-                                                Xin chào{" "}
-                                                {user?.dataLogin?.username} !
+                                                Xin chào{", "}
+                                                {user?.dataLogin?.username}
                                             </Nav.Item>
                                             <Link
                                                 className="nav-link"

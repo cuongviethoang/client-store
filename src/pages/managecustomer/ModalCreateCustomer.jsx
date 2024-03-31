@@ -87,11 +87,17 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
 
     const handleCloseConfirmCreate = () => setConfirmCreate(false);
 
+    const handleCloseCreate = () => {
+        handleCloseModalCreate();
+        setUsername("");
+        setPhoneNumber("");
+    };
+
     return (
         <>
             <Modal
                 show={showModalCreate}
-                onHide={handleCloseModalCreate}
+                onHide={handleCloseCreate}
                 className={confirmCreate ? "disable" : ""}
             >
                 <Modal.Header closeButton>
@@ -137,10 +143,7 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button
-                        variant="secondary"
-                        onClick={handleCloseModalCreate}
-                    >
+                    <Button variant="secondary" onClick={handleCloseCreate}>
                         Đóng
                     </Button>
                     <Button variant="primary" onClick={handleOpenConfirmCreate}>
