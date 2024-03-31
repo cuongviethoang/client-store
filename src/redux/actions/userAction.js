@@ -81,10 +81,9 @@ const createUserRequest = () => {
 const createUserError = () => {
     return {
         type: CREATE_USER_ERROR,
-        payload,
     };
 };
-const createUserSuccess = () => {
+const createUserSuccess = (payload) => {
     return {
         type: CREATE_USER_SUCCESS,
         payload,

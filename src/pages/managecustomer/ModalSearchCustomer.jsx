@@ -12,6 +12,7 @@ import ReactPaginate from "react-paginate";
 import ModalCreateCustomer from "./ModalCreateCustomer";
 import ModalEditCustomer from "./ModalEditCustomer";
 import { Link } from "react-router-dom";
+import { detailCusRedux } from "../../redux/actions/customerAction";
 
 const ModalSearchCustomer = (props) => {
     const dispatch = useDispatch();
@@ -91,6 +92,11 @@ const ModalSearchCustomer = (props) => {
     const handleCloseModalEdit = () => {
         setShowModalEdit(false);
         setDataModal({});
+    };
+
+    const handleSelectCus = (cusId) => {
+        dispatch(detailCusRedux(cusId));
+        props.onHide();
     };
 
     return (
@@ -174,7 +180,12 @@ const ModalSearchCustomer = (props) => {
                                                 Sửa
                                             </button>
                                             {props.btnSelect === true && (
-                                                <button className="btn btn-success me-3">
+                                                <button
+                                                    className="btn btn-success me-3"
+                                                    onClick={() =>
+                                                        handleSelectCus(item.id)
+                                                    }
+                                                >
                                                     Chọn
                                                 </button>
                                             )}
