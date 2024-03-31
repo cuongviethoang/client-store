@@ -141,7 +141,7 @@ const ModalEditCustomer = (props) => {
                             <Form.Label>Số điện thoại</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder="Số điện thoại khách hàng"
                                     value={phoneNumber}
                                     onChange={(e) =>

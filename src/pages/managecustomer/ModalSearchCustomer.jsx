@@ -11,6 +11,7 @@ import { searchCusRedux } from "../../redux/actions/customerAction";
 import ReactPaginate from "react-paginate";
 import ModalCreateCustomer from "./ModalCreateCustomer";
 import ModalEditCustomer from "./ModalEditCustomer";
+import { Link } from "react-router-dom";
 
 const ModalSearchCustomer = (props) => {
     const dispatch = useDispatch();
@@ -153,9 +154,15 @@ const ModalSearchCustomer = (props) => {
                                         <td>{item?.username}</td>
                                         <td>{item?.phoneNumber}</td>
                                         <td>
-                                            <button className="btn btn-info me-3">
-                                                Xem
-                                            </button>
+                                            <Link
+                                                to={`/manage-order-of-customer/${item.id}`}
+                                            >
+                                                {props.btnManageOrder && (
+                                                    <button className="btn btn-info me-3">
+                                                        Xem các đơn hàng
+                                                    </button>
+                                                )}
+                                            </Link>
                                             <button
                                                 className="btn btn-warning me-3"
                                                 onClick={() =>
@@ -166,9 +173,11 @@ const ModalSearchCustomer = (props) => {
                                             >
                                                 Sửa
                                             </button>
-                                            <button className="btn btn-success me-3">
-                                                Chọn
-                                            </button>
+                                            {props.btnSelect === true && (
+                                                <button className="btn btn-success me-3">
+                                                    Chọn
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))

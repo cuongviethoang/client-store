@@ -37,7 +37,9 @@ const Header = () => {
                         className="bg-body-tertiary"
                     >
                         <Container>
-                            <Navbar.Brand href="/">CoOp mart</Navbar.Brand>
+                            <NavLink to={`/`} className="nav-link">
+                                <Navbar.Brand>CoOp mart</Navbar.Brand>
+                            </NavLink>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
