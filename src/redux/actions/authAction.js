@@ -13,7 +13,6 @@ import {
     REFRESH_USER_SUCCESS,
     LOGOUT_AUTH_ERROR,
 } from "../types/authType";
-import { useNavigate } from "react-router-dom";
 
 import {
     authRegister,

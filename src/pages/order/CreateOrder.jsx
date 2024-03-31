@@ -1,69 +1,77 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import ModalSearchCustomer from "../managecustomer/ModalSearchCustomer";
 
 import "./CreateOrder.scss";
+import { useSelector } from "react-redux";
 
 function CreateOrder() {
-    const [employees, setEmployees] = useState([]);
-    const [customers, setCustomers] = useState([]);
+    const dataUser = useSelector((state) => state.auth.data.dataLogin);
+    const customer = useSelector((state) => state.cus.cus);
+
+    // const [employees, setEmployees] = useState([]);
+    // const [customers, setCustomers] = useState([]);
     const [selectedCustomerId, setSelectedCustomerId] = useState("");
     const [selectedUserId, setSelectedUserId] = useState("");
-    const [customerName, setCustomerName] = useState("");
+    // const [customerName, setCustomerName] = useState("");
     const [items, setItems] = useState([]);
     const [cashAmount, setCashAmount] = useState(0);
-    const [currentTime, setCurrentTime] = useState(new Date());
+    // const [currentTime, setCurrentTime] = useState(new Date());
     const [showPopup, setShowPopup] = useState(false);
     const [products, setProducts] = useState([]);
     const [productQuantities, setProductQuantities] = useState({});
     const [searchKeyword, setSearchKeyword] = useState("");
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setCurrentTime(new Date());
+    //     }, 1000);
+    //     return () => clearInterval(interval);
+    // }, []);
+
+    // search khach hang
+    const [modalSearchShow, setModalSearchShow] = useState(false);
 
     const fetchProducts = () => {
-        fetch("http://localhost:8080/api/product/read-all?page=1&limit=10", {
-            method: "GET",
-            credentials: "include",
-        })
-            .then((response) => response.json())
-            .then((data) => setProducts(data))
-            .catch((error) =>
-                console.error("Error fetching products: ", error)
-            );
+        // fetch("http://localhost:8080/api/product/read-all?page=1&limit=10", {
+        //     method: "GET",
+        //     credentials: "include",
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => setProducts(data))
+        //     .catch((error) =>
+        //         console.error("Error fetching products: ", error)
+        //     );
     };
 
     const fetchEmployees = () => {
-        fetch(`http://localhost:8080/api/user/read?page=${1}&limit=${10}`, {
-            method: "GET",
-            credentials: "include", // This is equivalent to withCredentials: true
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setEmployees(data);
-            })
-            .catch((error) =>
-                console.error("Error fetching employees: ", error)
-            );
+        // fetch(`http://localhost:8080/api/user/read?page=${1}&limit=${10}`, {
+        //     method: "GET",
+        //     credentials: "include", // This is equivalent to withCredentials: true
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setEmployees(data);
+        //     })
+        //     .catch((error) =>
+        //         console.error("Error fetching employees: ", error)
+        //     );
     };
 
     const fetchCustomer = () => {
-        fetch(
-            `http://localhost:8080/api/customer/read?page=${1}&limit=${100}`,
-            {
-                method: "GET",
-                credentials: "include", // This is equivalent to withCredentials: true
-            }
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                setCustomers(data);
-            })
-            .catch((error) =>
-                console.error("Error fetching employees: ", error)
-            );
+        // fetch(
+        //     `http://localhost:8080/api/customer/read?page=${1}&limit=${100}`,
+        //     {
+        //         method: "GET",
+        //         credentials: "include", // This is equivalent to withCredentials: true
+        //     }
+        // )
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setCustomers(data);
+        //     })
+        //     .catch((error) =>
+        //         console.error("Error fetching employees: ", error)
+        //     );
     };
 
     useEffect(() => {
@@ -171,42 +179,32 @@ function CreateOrder() {
             {/* Phần bên trái */}
             <div className="left-section">
                 <div>
-                    <h3>Chọn nhân viên</h3>
-                    <select value={selectedUserId} onChange={handleUserSelect}>
+                    <h3>Nhân viên trực: </h3>
+                    <h6>Tên nhân viên: {dataUser?.username}</h6>
+                    {/* <select value={selectedUserId} onChange={handleUserSelect}>
                         <option value="">Chọn nhân viên</option>
                         {employees.map((employee) => (
                             <option key={employee.id} value={employee.id}>
                                 {employee.username}
                             </option>
                         ))}
-                    </select>
+                    </select> */}
                 </div>
-                <div>
+                {/* <div>
                     <h3>Thời gian:</h3>
                     <h3>{currentTime.toLocaleString()}</h3>
-                </div>
+                </div> */}
                 <div>
-                    <h3>Tên khách hàng</h3>
-                    <input
-                        type="text"
-                        placeholder="Nhập tên khách hàng"
-                        value={customerName}
-                        // onChange={(e) => setCustomerName(e.target.value)}
-                    />
-                    <select
-                        value={selectedCustomerId}
-                        onChange={handleCustomerSelect}
+                    <button
+                        className="btn btn-info"
+                        onClick={() => setModalSearchShow(true)}
                     >
-                        <option value="">Chọn khách hàng</option>
-                        {customers.map((customer) => (
-                            <option key={customer.id} value={customer.id}>
-                                {customer.username}
-                            </option>
-                        ))}
-                    </select>
+                        Tìm kiếm khách hàng
+                    </button>
                 </div>
                 <div>
                     <button
+                        className="btn btn-primary"
                         onClick={handleAddProduct}
                         style={{ marginTop: "10px" }}
                     >
@@ -288,6 +286,25 @@ function CreateOrder() {
 
             {/* Phần bên phải */}
             <div className="right-section">
+                {customer && (
+                    <>
+                        <h3>Thông tin khách hàng</h3>
+                        <table className="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tên khách hàng</th>
+                                    <th scope="col">Số điện thoại</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{customer?.username}</td>
+                                    <td>{customer?.phoneNumber}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </>
+                )}
                 <h3>Danh sách sản phẩm</h3>
                 <table>
                     <thead>
@@ -331,6 +348,12 @@ function CreateOrder() {
                     <button onClick={handleConfirmOrder}>Xác nhận</button>
                 </div>
             </div>
+            <ModalSearchCustomer
+                show={modalSearchShow}
+                onHide={() => setModalSearchShow(false)}
+                btnManageOrder={false}
+                btnSelect={true}
+            />
         </div>
     );
 }
