@@ -54,8 +54,12 @@ const ModalSearchCustomer = (props) => {
     }, [currentPage]);
 
     const handleChangeInput = (e) => {
-        const searchValue = e.target.value;
-        if (!searchValue.startsWith(" ")) {
+        const searchValue = e.target.value.trim();
+        const regex = /^\s/;
+        console.log(regex.test(searchValue));
+        if (regex.test(searchValue)) {
+            return;
+        } else {
             setSearchValue(searchValue);
         }
     };
