@@ -112,7 +112,7 @@ const detailCusRedux = (cusId) => {
             const res = await getCustomerDetail(cusId);
             console.log(">> check response cus detail: ", res);
             if (res && +res?.status === 200) {
-                dispatch(detailCusSuccess(res));
+                dispatch(detailCusSuccess(res?.data));
             } else {
                 toast.error(res?.data?.em);
                 dispatch(detailCusError());

@@ -10,7 +10,7 @@ import {
 
 import "./ManageCustomer.scss";
 import { useDispatch, useSelector } from "react-redux";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
     const dispatch = useDispatch();
@@ -34,11 +34,16 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [confirmCreate, setConfirmCreate] = useState(false);
 
+    const handleEnterPhone = (e) => {
+        const value = e.target.value;
+        setPhoneNumber(value);
+    };
+
     // regex phone
-    // const isValidPhone = (phone) =>
-    //     /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(
-    //         phone
-    //     );
+    const isValidPhone = (phone) =>
+        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(
+            phone
+        );
 
     const checkValueCreate = (username, phoneNumber) => {
         setCheckValid(defaultValue);
@@ -56,10 +61,10 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
             });
             return false;
         }
-        // if (!isValidPhone(phoneNumber)) {
-        //     toast.info("Đây không phải số điện thoại hợp lệ");
-        //     return false;
-        // }
+        if (!isValidPhone(phoneNumber)) {
+            toast.info("Đây không phải số điện thoại hợp lệ");
+            return false;
+        }
         return true;
     };
 
@@ -87,11 +92,17 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
 
     const handleCloseConfirmCreate = () => setConfirmCreate(false);
 
+    const handleCloseCreate = () => {
+        handleCloseModalCreate();
+        setUsername("");
+        setPhoneNumber("");
+    };
+
     return (
         <>
             <Modal
                 show={showModalCreate}
-                onHide={handleCloseModalCreate}
+                onHide={handleCloseCreate}
                 className={confirmCreate ? "disable" : ""}
             >
                 <Modal.Header closeButton>
@@ -115,12 +126,10 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
                             <Form.Label>Số điện thoại</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
-                                    type="text"
+                                    type="number"
                                     placeholder="Số điện thoại khách hàng"
                                     value={phoneNumber}
-                                    onChange={(e) =>
-                                        setPhoneNumber(e.target.value)
-                                    }
+                                    onChange={(e) => handleEnterPhone(e)}
                                     required
                                     className={
                                         checkValid.isValidPhoneNumber === false
@@ -137,10 +146,7 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button
-                        variant="secondary"
-                        onClick={handleCloseModalCreate}
-                    >
+                    <Button variant="secondary" onClick={handleCloseCreate}>
                         Đóng
                     </Button>
                     <Button variant="primary" onClick={handleOpenConfirmCreate}>

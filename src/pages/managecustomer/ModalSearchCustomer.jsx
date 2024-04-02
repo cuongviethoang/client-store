@@ -11,6 +11,8 @@ import { searchCusRedux } from "../../redux/actions/customerAction";
 import ReactPaginate from "react-paginate";
 import ModalCreateCustomer from "./ModalCreateCustomer";
 import ModalEditCustomer from "./ModalEditCustomer";
+import { Link } from "react-router-dom";
+import { detailCusRedux } from "../../redux/actions/customerAction";
 
 const ModalSearchCustomer = (props) => {
     const dispatch = useDispatch();
@@ -54,8 +56,12 @@ const ModalSearchCustomer = (props) => {
     }, [currentPage]);
 
     const handleChangeInput = (e) => {
-        const searchValue = e.target.value;
-        if (!searchValue.startsWith(" ")) {
+        const searchValue = e.target.value.trim();
+        const regex = /^\s/;
+        console.log(regex.test(searchValue));
+        if (regex.test(searchValue)) {
+            return;
+        } else {
             setSearchValue(searchValue);
         }
     };
@@ -86,6 +92,11 @@ const ModalSearchCustomer = (props) => {
     const handleCloseModalEdit = () => {
         setShowModalEdit(false);
         setDataModal({});
+    };
+
+    const handleSelectCus = (cusId) => {
+        dispatch(detailCusRedux(cusId));
+        props.onHide();
     };
 
     return (
@@ -149,9 +160,15 @@ const ModalSearchCustomer = (props) => {
                                         <td>{item?.username}</td>
                                         <td>{item?.phoneNumber}</td>
                                         <td>
-                                            <button className="btn btn-info me-3">
-                                                Xem
-                                            </button>
+                                            <Link
+                                                to={`/manage-order-of-customer/${item.id}`}
+                                            >
+                                                {props.btnManageOrder && (
+                                                    <button className="btn btn-info me-3">
+                                                        Xem các đơn hàng
+                                                    </button>
+                                                )}
+                                            </Link>
                                             <button
                                                 className="btn btn-warning me-3"
                                                 onClick={() =>
@@ -162,9 +179,16 @@ const ModalSearchCustomer = (props) => {
                                             >
                                                 Sửa
                                             </button>
-                                            <button className="btn btn-success me-3">
-                                                Chọn
-                                            </button>
+                                            {props.btnSelect === true && (
+                                                <button
+                                                    className="btn btn-success me-3"
+                                                    onClick={() =>
+                                                        handleSelectCus(item.id)
+                                                    }
+                                                >
+                                                    Chọn
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))
