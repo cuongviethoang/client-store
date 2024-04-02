@@ -135,7 +135,7 @@ function CreateOrder() {
     }));
 
     const initialOrder = {
-      code: "",
+      code: "Order123",
       customer: {
         id: selectedCustomerId,
       },
