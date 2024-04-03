@@ -300,7 +300,12 @@ function CreateOrder() {
             type="number"
             placeholder="Nhập số tiền khách đưa"
             value={formatCurrency(cashAmount)}
-            onChange={(e) => setCashAmount(e.target.value)}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              if (inputValue >= 0) {
+                setCashAmount(inputValue);
+              }
+            }}
           />
         </div>
         <div>
