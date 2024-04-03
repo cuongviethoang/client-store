@@ -12,45 +12,38 @@ import CreateOrder from "../pages/order/CreateOrder";
 import ManageItemOrder from "../pages/manageorder/ManageItemOrder";
 
 const AppRoutes = (props) => {
-    return (
-        <>
-            <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/login" element={<Login />}></Route>
-                <Route
-                    path="/detail-product/:id"
-                    element={<DetailProduct />}
-                ></Route>
-                <Route
-                    path="/manage-customer"
-                    element={
-                        <PrivateRoutes>{<ManageCustomer />}</PrivateRoutes>
-                    }
-                />
-                <Route
-                    path="/manage-product"
-                    element={<PrivateRoutes>{<ManageProduct />}</PrivateRoutes>}
-                />
-                <Route
-                    path="/manage-order-of-customer/:cusId"
-                    element={<PrivateRoutes>{<ManageOder />}</PrivateRoutes>}
-                />
-                <Route
-                    path="/manage-item-order-of-order/:cusId/:orderId"
-                    element={
-                        <PrivateRoutes>{<ManageItemOrder />}</PrivateRoutes>
-                    }
-                />
-                <Route path="/invoices" element={<Invoices />} />
-                <Route path="/orders" element={<CreateOrder />} />
-                {/* <Route
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/detail-product/:id" element={<DetailProduct />}></Route>
+        <Route
+          path="/manage-customer"
+          element={<PrivateRoutes>{<ManageCustomer />}</PrivateRoutes>}
+        />
+        <Route
+          path="/manage-product"
+          element={<PrivateRoutes>{<ManageProduct />}</PrivateRoutes>}
+        />
+        <Route
+          path="/manage-order-of-customer/:cusId"
+          element={<PrivateRoutes>{<ManageOder />}</PrivateRoutes>}
+        />
+        <Route
+          path="/manage-item-order-of-order/:cusId/:orderId"
+          element={<PrivateRoutes>{<ManageItemOrder />}</PrivateRoutes>}
+        />
+        <Route path="/invoices" element={<Invoices />} />
+        <Route path="/order" element={<CreateOrder />} />
+        {/* <Route
           path="/orders"
           element={<PrivateRoutes>{<CreateOrder />}</PrivateRoutes>}
         /> */}
-                <Route path="/*" element={<NotFoundPage />}></Route>
-            </Routes>
-        </>
-    );
+        <Route path="/*" element={<NotFoundPage />}></Route>
+      </Routes>
+    </>
+  );
 };
 
 export default AppRoutes;
