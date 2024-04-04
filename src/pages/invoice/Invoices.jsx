@@ -11,159 +11,87 @@ import {
 
 import {
     getAllOrder,
-    getOrderById
+    getOrderById,
+    getOrderWithPagination,
+    getOrderWithPaginationNum
 } from "../../services/orderService"
 
-let orders_default = []
 function Invoices() {
 
     const [orders, setOrders] = useState([])
     const [orderSelected, setOrderSelected] = useState()
     const [openOrderDialog, setOpenOrderDialog] = useState(false)
+    const [key, setKey] = useState("")
+    const [timeStart, setTimeStart] = useState("")
+    const [timeEnd, setTimeEnd] = useState("")
+    const [length, setLength] = useState(0)
     const [pageIndex, setPageIndex] = useState(1)
 
-    async function readAllOrder() {
+    async function readOrders() {
+        var startTime = timeStart
+        var endTime = timeEnd
+        if(timeStart == ""){
+            startTime = '2023-01-01T00:00'
+        }
+        if(timeEnd == ""){
+            endTime = '2030-01-01T00:00'
+        }    
         try {
-            const response = await getAllOrder()
+            const response = await getOrderWithPagination(
+                pageIndex, 
+                10, 
+                key, 
+                startTime,
+                endTime
+            )
             if (response.status === 200) {
                 const data = response.data
-                console.log(data)
                 setOrders(data)
-                orders_default = [...data]
+            }
+        } catch (error) {
+        }
+    }
+
+    async function getLength() {
+        var startTime = timeStart
+        var endTime = timeEnd
+        if(timeStart == ""){
+            startTime = '2023-01-01T00:00'
+        }
+        if(timeEnd == ""){
+            endTime = '2030-01-01T00:00'
+        }    
+        try {
+            const response = await getOrderWithPaginationNum(
+                key, 
+                startTime,
+                endTime
+            )
+            if (response.status === 200) {
+                const data = response.data
+                setLength(parseInt(data))
             }
         } catch (error) {
         }
     }
     useEffect(() => {
-        // orders_default = [
-        //     {
-        //         id: 1,
-        //         code: "HD0000001",
-        //         createTime: "18/08/2024 18:19",
-        //         customer: {
-        //             id: 1,
-        //             username: "kien",
-        //             phoneNumber: "0961016881"
-        //         },
-        //         itemOrders: [
-        //             {
-        //                 id: 1,
-        //                 product: {
-        //                     id: 1,
-        //                     productName: "Coca cola",
-        //                     productImage: "",
-        //                     qrCode: "",
-        //                     price: 20000,
-        //                     total: 100
-        //                 },
-        //                 quantity: 2,
-        //                 price: 20000
-        //             }
-        //         ],
-        //         payment: {
-        //             id: 1,
-        //             discount: 0,
-        //             total: 99000,
-        //             customerPaid: 100000,
-        //             refunds: 1000
-        //         },
-        //         user: {
-        //             id: 1,
-        //             email: "svvew",
-        //             phoneNumber: "0123456789",
-        //             username: "kienlv"
-        //         }
-        //     },
-        //     {
-        //         id: 2,
-        //         code: "HD0000002",
-        //         createTime: "18/08/2024 18:19",
-        //         customer: {
-        //             id: 1,
-        //             username: "hieu",
-        //             phoneNumber: "0961016881"
-        //         },
-        //         itemOrders: [
-        //             {
-        //                 id: 1,
-        //                 product: {
-        //                     id: 1,
-        //                     productName: "pepsi",
-        //                     productImage: "",
-        //                     qrCode: "",
-        //                     price: 17000,
-        //                     total: 100
-        //                 },
-        //                 quantity: 2,
-        //                 price: 17000
-        //             }
-        //         ],
-        //         payment: {
-        //             id: 1,
-        //             discount: 0,
-        //             total: 98000,
-        //             customerPaid: 100000,
-        //             refunds: 2000
-        //         },
-        //         user: {
-        //             id: 1,
-        //             email: "svvew",
-        //             phoneNumber: "0123456789",
-        //             username: "kienlv"
-        //         }
-        //     }
+        setPageIndex(1)  
+        if(pageIndex==1){
+            readOrders()     
+        } 
+        getLength()
+    }, [timeStart, timeEnd, key])
 
-        // ]
-        // setOrders(orders_default)
-        readAllOrder()
-    }, [])
+    useEffect(()=>{
+        readOrders()
+    },[pageIndex])
 
     const moneyForm = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
         minimumFractionDigits: 0,
     });
-
-    const handleSearchOrders = (e) => {
-        setOrders(orders_default.filter(order => {
-            return order.code.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                order.customer.username.toLowerCase().includes(e.target.value.toLowerCase())
-        }))
-        setPageIndex(1)
-    }
-
-    const [timeStart, setTimeStart] = useState("")
-    const [timeEnd, setTimeEnd] = useState("")
-    const handleFilterTime = () => {
-        setOrders(orders_default.filter(order => {
-            var orderTime = new Date(order.createTime);
-            var startTime = new Date(timeStart);
-            var endTime = new Date(timeEnd);
-
-            if (timeStart != "" && timeEnd == "") {
-                if (orderTime >= startTime) {
-                    return true
-                } else {
-                    return false
-                }
-            } else if (timeStart == "" && timeEnd != "") {
-                if (orderTime <= endTime) {
-                    return true
-                } else {
-                    return false
-                }
-            } else if (timeStart != "" && timeEnd != "") {
-                if (orderTime >= startTime && orderTime <= endTime) {
-                    return true
-                } else {
-                    return false
-                }
-            } else {
-                return true
-            }
-        }))
-        setPageIndex(1)
-    }
+   
 
     return (
         <React.Fragment>
@@ -183,7 +111,6 @@ function Invoices() {
                                     <label>Đến:</label>
                                     <input onChange={(e) => setTimeEnd(e.target.value)} type="datetime-local" />
                                 </div>
-                                <div onClick={handleFilterTime} className="btnFitlerTime btn btn-primary">Tìm kiếm</div>
                             </div>
                             <div className="order-filter__status">
 
@@ -194,7 +121,7 @@ function Invoices() {
                         <div className="wrapper-invoice">
                             <div className="order-searching__wrapper">
                                 <i style={{ color: 'gray' }} className="fa-solid fa-magnifying-glass"></i>
-                                <input onChange={(e) => handleSearchOrders(e)} type="text" placeholder="Tìm kiếm theo mã hoá đơn, tên khách hàng" name="" className="order-searching__input" />
+                                <input onChange={(e) => setKey(e.target.value)} type="text" placeholder="Tìm kiếm theo mã hoá đơn, tên khách hàng" name="" className="order-searching__input" />
                             </div>
                             <div className="table-invoice">
                                 <ul className="invoice-list">
@@ -232,7 +159,6 @@ function Invoices() {
                                     {
                                         orders?.map((order, index) => {
                                             return (
-                                                (index + 1) <= pageIndex * 10 && (index + 1) > (pageIndex - 1) * 10 ?
                                                     <React.Fragment key={order.id}>
                                                         <li style={index % 2 == 0 ? { backgroundColor: '#f3f3f3' } : {}}
                                                             className="invoice-line"
@@ -247,7 +173,7 @@ function Invoices() {
                                                             <div className="invoice-sale">{moneyForm.format(order.payment.discount)}</div>
                                                             <div className="invoice-paid">{moneyForm.format(order.payment.total)}</div>
                                                         </li>
-                                                    </React.Fragment> : ""
+                                                    </React.Fragment>
                                             )
                                         })
                                     }
@@ -255,7 +181,7 @@ function Invoices() {
                                 <PageIndex
                                     pageIndex={pageIndex}
                                     setPageIndex={setPageIndex}
-                                    orders={orders}
+                                    length={length}
                                 />
                             </div>
                         </div>
