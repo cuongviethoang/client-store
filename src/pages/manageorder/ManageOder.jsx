@@ -80,13 +80,14 @@ const ManageOder = () => {
                                                                     1}
                                                             </td>
                                                             <td>
-                                                                {item.createTime &&
+                                                                {/* {item.createTime &&
                                                                     format(
                                                                         new Date(
                                                                             item.createTime
                                                                         ),
                                                                         "dd/MM/yyyy HH:mm"
-                                                                    )}
+                                                                    )} */}
+                                                                    {item.createTime}
                                                             </td>
                                                             <td>
                                                                 {moneyForm.format(

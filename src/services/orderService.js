@@ -4,6 +4,28 @@ const getAllOrder = () => {
     return axios.get("/api/order-all");
 };
 
+const getOrderWithPagination = (page, limit, key, startTime, endTime)=>{
+    return axios.get("/api/order-all-pagination",{
+        params:{
+            page,
+            limit,
+            key,
+            startTime,
+            endTime
+        }
+    })
+};
+
+const getOrderWithPaginationNum = (key, startTime, endTime)=>{
+    return axios.get("/api/order-all-pagination-num",{
+        params:{
+            key,
+            startTime,
+            endTime
+        }
+    })
+};
+
 const getOrderById = (orderId) => {
     return axios.get(`/api/order/get/${orderId}`);
 };
@@ -29,4 +51,6 @@ export {
     getOrderById,
     getOrdersOfCusWithPagination,
     getItemOrdersOfOrderWithPagination,
+    getOrderWithPagination,
+    getOrderWithPaginationNum
 };
