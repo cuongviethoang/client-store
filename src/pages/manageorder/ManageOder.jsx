@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { getListOrderOfUserWithPagination } from "../../redux/actions/orderAction";
 import { Container } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
-import { format } from "date-fns";
 
 const ManageOder = () => {
     const { cusId } = useParams();
@@ -73,35 +72,30 @@ const ManageOder = () => {
                                                         <tr
                                                             key={`row-${index}`}
                                                         >
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {(curPage - 1) *
                                                                     8 +
                                                                     index +
                                                                     1}
                                                             </td>
-                                                            <td>
-                                                                {/* {item.createTime &&
-                                                                    format(
-                                                                        new Date(
-                                                                            item.createTime
-                                                                        ),
-                                                                        "dd/MM/yyyy HH:mm"
-                                                                    )} */}
-                                                                    {item.createTime}
+                                                            <td className="text-left">
+                                                                {
+                                                                    item.createTime
+                                                                }
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item.payment
                                                                         .total
                                                                 )}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item.payment
                                                                         .customerPaid
                                                                 )}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item.payment
                                                                         .refunds

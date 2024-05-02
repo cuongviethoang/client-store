@@ -43,6 +43,14 @@ const ModalEditCustomer = (props) => {
         setPhoneNumber(customer?.phoneNumber);
     }, [customer]);
 
+    const handleEnterPhone = (e) => {
+        const value = e.target.value;
+        if (Number(value) >= 0) {
+            setPhoneNumber(e.target.value);
+        }
+        return;
+    };
+
     // regex phone
     const isValidPhone = (phone) =>
         /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(
@@ -144,9 +152,7 @@ const ModalEditCustomer = (props) => {
                                     type="number"
                                     placeholder="Số điện thoại khách hàng"
                                     value={phoneNumber}
-                                    onChange={(e) =>
-                                        setPhoneNumber(e.target.value)
-                                    }
+                                    onChange={(e) => handleEnterPhone(e)}
                                     required
                                     className={
                                         checkValid.isValidPhoneNumber === false

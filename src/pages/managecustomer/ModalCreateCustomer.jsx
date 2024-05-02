@@ -36,7 +36,10 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
 
     const handleEnterPhone = (e) => {
         const value = e.target.value;
-        setPhoneNumber(value);
+        if (Number(value) >= 0) {
+            setPhoneNumber(value);
+        }
+        return;
     };
 
     // regex phone
@@ -96,6 +99,7 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
         handleCloseModalCreate();
         setUsername("");
         setPhoneNumber("");
+        setCheckValid(defaultValue);
     };
 
     return (
