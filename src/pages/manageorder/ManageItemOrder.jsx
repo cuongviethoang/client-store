@@ -75,30 +75,30 @@ const ManageItemOrder = () => {
                                                         <tr
                                                             key={`row-${index}`}
                                                         >
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {(curPage - 1) *
                                                                     10 +
                                                                     index +
                                                                     1}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {
                                                                     item
                                                                         ?.product
                                                                         ?.productName
                                                                 }
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item
                                                                         ?.product
                                                                         ?.price
                                                                 )}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {item?.quantity}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item?.quantity *
                                                                         item

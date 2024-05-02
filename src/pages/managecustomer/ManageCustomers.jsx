@@ -121,15 +121,17 @@ const ManageCustomers = () => {
                                             <>
                                                 {listCus.map((item, index) => (
                                                     <tr key={`row-${index}`}>
-                                                        <td>
+                                                        <td className="text-left">
                                                             {(currentPageCus -
                                                                 1) *
                                                                 limitCus +
                                                                 index +
                                                                 1}
                                                         </td>
-                                                        <td>{item.username}</td>
-                                                        <td>
+                                                        <td className="text-left">
+                                                            {item.username}
+                                                        </td>
+                                                        <td className="text-left">
                                                             {item.phoneNumber}
                                                         </td>
                                                         <td className="d-flex justify-content-center gap-3">
@@ -210,6 +212,7 @@ const ManageCustomers = () => {
                     onHide={() => setModalSearchShow(false)}
                     btnManageOrder={true}
                     btnSelect={false}
+                    btnCreateCustomer={false}
                 />
             </Container>
         </>
