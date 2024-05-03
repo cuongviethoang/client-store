@@ -161,104 +161,93 @@ function CreateOrder() {
         });
     };
 
-    return (
-        <div className="create-order-container">
-            {/* Phần bên trái */}
-            <div className="left-section">
-                <div>
-                    <h1>Tạo đơn hàng</h1>
-                    <h3>Nhân viên trực: </h3>
-                    <h5>Tên nhân viên: {dataUser?.username}</h5>
-                </div>
-                <div>
-                    <button
-                        className="btn btn-info"
-                        onClick={() => setModalSearchShow(true)}
-                    >
-                        Tìm kiếm khách hàng
-                    </button>
-                </div>
-                <div>
-                    <button
-                        className="btn btn-primary"
-                        onClick={handleAddProduct}
-                        style={{ marginTop: "10px" }}
-                    >
-                        Thêm sản phẩm
-                    </button>
-                </div>
-                {showPopup && (
-                    <div className="popup">
-                        <h2>Chọn sản phẩm</h2>
-                        {/* Thêm input cho từ khoá tìm kiếm */}
-                        <input
-                            type="text"
-                            placeholder="Tìm kiếm sản phẩm..."
-                            value={searchKeyword}
-                            onChange={handleSearchChange}
-                        />
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Ảnh sản phẩm</th>
-                                    <th>Giá</th>
-                                    <th>Số lượng</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {/* Lọc danh sách sản phẩm dựa trên từ khoá tìm kiếm */}
-                                {filteredProducts.map((product) => (
-                                    <tr key={product.id}>
-                                        <td>{product.productName}</td>
-                                        <td>
-                                            <img
-                                                src={product.productImage}
-                                                alt="Product"
-                                            />
-                                        </td>
-                                        <td>{formatCurrency(product.price)}</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                value={
-                                                    productQuantities[
-                                                        product.id
-                                                    ] || 1
-                                                }
-                                                onChange={(e) =>
-                                                    handleQuantityChange(
-                                                        product.id,
-                                                        parseInt(e.target.value)
-                                                    )
-                                                }
-                                            />
-                                        </td>
-                                        <td>
-                                            <button
-                                                onClick={() =>
-                                                    handleAddToOrder(
-                                                        product,
-                                                        productQuantities[
-                                                            product.id
-                                                        ] || 1
-                                                    )
-                                                }
-                                            >
-                                                Thêm
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <button onClick={() => setShowPopup(false)}>
-                            Đóng
-                        </button>
-                    </div>
-                )}
-            </div>
+  return (
+    <div className="create-order-container">
+      {/* Phần bên trái */}
+      <div className="left-section">
+        <div>
+          <h1>Tạo đơn hàng</h1>
+          <h3>Nhân viên trực: </h3>
+          <h5>Tên nhân viên: {dataUser?.username}</h5>
+        </div>
+        <div>
+          <button
+            className="btn btn-info"
+            onClick={() => setModalSearchShow(true)}
+          >
+            Tìm kiếm khách hàng
+          </button>
+        </div>
+        <div>
+          <button
+            className="btn btn-primary"
+            onClick={handleAddProduct}
+            style={{ marginTop: "10px" }}
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
+        {showPopup && (
+          <div className="popup">
+            <h2>Chọn sản phẩm</h2>
+            {/* Thêm input cho từ khoá tìm kiếm */}
+            <input
+              type="text"
+              placeholder="Tìm kiếm sản phẩm..."
+              value={searchKeyword}
+              onChange={handleSearchChange}
+            />
+            <table>
+              <thead>
+                <tr>
+                  <th>Tên sản phẩm</th>
+                  <th>Ảnh sản phẩm</th>
+                  <th>Giá</th>
+                  <th>Số lượng</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Lọc danh sách sản phẩm dựa trên từ khoá tìm kiếm */}
+                {filteredProducts.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.productName}</td>
+                    <td>
+                      <img width={60} src={`data:image/jpeg;base64,${product.productImage}`} alt="Base64 Image" />
+                    </td>
+                    <td>{formatCurrency(product.price)}</td>
+                    <td>
+                      <input
+                        type="number"
+                        value={productQuantities[product.id] || 1}
+                        onChange={(e) =>
+                          handleQuantityChange(
+                            product.id,
+                            parseInt(e.target.value)
+                          )
+                        }
+                      />
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          handleAddToOrder(
+                            product,
+                            productQuantities[product.id] || 1
+                          )
+                        }
+                      >
+                        Thêm
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={() => setShowPopup(false)}>Đóng</button>
+          </div>
+        )}
+      </div>
 
             {/* Phần bên phải */}
             <div className="right-section">

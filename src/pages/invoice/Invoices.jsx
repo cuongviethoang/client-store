@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import "./css/invoices.css"
 import PageIndex from "./PageIndex"
 import InvoiceDetail from "./InvoiceDetail"
@@ -15,6 +15,8 @@ import {
     getOrderWithPagination,
     getOrderWithPaginationNum
 } from "../../services/orderService"
+import InvoiceExportPdf from "./InvoiceExportPdf"
+import { useReactToPrint } from "react-to-print"
 
 function Invoices() {
 
@@ -26,6 +28,7 @@ function Invoices() {
     const [timeEnd, setTimeEnd] = useState("")
     const [length, setLength] = useState(0)
     const [pageIndex, setPageIndex] = useState(1)
+    const componentPDF = useRef()
 
     async function readOrders() {
         var startTime = timeStart
@@ -91,7 +94,11 @@ function Invoices() {
         currency: 'VND',
         minimumFractionDigits: 0,
     });
-   
+
+    const generatePDF=useReactToPrint({
+        content:()=> componentPDF.current,
+        documentTitle:"Hoá đơn"
+    })
 
     return (
         <React.Fragment>
@@ -121,7 +128,7 @@ function Invoices() {
                         <div className="wrapper-invoice">
                             <div className="order-searching__wrapper">
                                 <i style={{ color: 'gray' }} className="fa-solid fa-magnifying-glass"></i>
-                                <input onChange={(e) => setKey(e.target.value)} type="text" placeholder="Tìm kiếm theo mã hoá đơn, tên khách hàng" name="" className="order-searching__input" />
+                                <input onChange={(e) => setKey(e.target.value)} type="text" placeholder="Tìm kiếm theo mã hoá đơn, tên khách hàng, tên sản phẩm" name="" className="order-searching__input" />
                             </div>
                             <div className="table-invoice">
                                 <ul className="invoice-list">
@@ -171,7 +178,7 @@ function Invoices() {
                                                             <div className="invoice-cust">{order.customer.username + " " + order.customer.phoneNumber}</div>
                                                             <div className="invoice-total">{moneyForm.format(order.payment.total)}</div>
                                                             <div className="invoice-sale">{moneyForm.format(order.payment.discount)}</div>
-                                                            <div className="invoice-paid">{moneyForm.format(order.payment.total)}</div>
+                                                            <div className="invoice-paid">{moneyForm.format(order.payment.customerPaid)}</div>
                                                         </li>
                                                     </React.Fragment>
                                             )
@@ -193,7 +200,16 @@ function Invoices() {
                 setOpenOrderDialog={setOpenOrderDialog}
                 orderSelected={orderSelected}
                 moneyForm={moneyForm}
+                generatePDF={generatePDF}
             />
+            <div style={{display:'none'}}>
+                <div ref={componentPDF}>
+                <InvoiceExportPdf
+                    orderSelected={orderSelected}
+                    moneyForm={moneyForm}
+                />
+                </div>
+            </div>
         </React.Fragment>
     )
 }

@@ -1,0 +1,42 @@
+.invoiceexport-wrapper{
+    width: 350px;
+    border: 1px solid black;
+    padding: 10px;
+}
+.invoiceexport-wrapper-header{
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    display: flex;
+}
+.invoiceexport-wrapper-header img{
+    width: 70px;
+}
+.store-info{
+    font-size: 20px;
+}
+.invoice-info{
+    display: flex;
+    justify-content: space-between;
+}
+.listitem-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+.listitem-item{
+    flex: 1;
+}
+.item_orders-total{
+    width: 100%;
+}
+.item_orders-total-item{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.item_orders-total-item .label{
+    font-weight: bold;
+}
+.dash-line{
+    border: 1px dashed gray;
+}
