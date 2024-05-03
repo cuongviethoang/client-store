@@ -9,7 +9,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { format } from "date-fns"
 
 
-const InvoiceDetail = ({ openOrderDialog, setOpenOrderDialog, orderSelected, moneyForm }) => {
+const InvoiceDetail = ({ openOrderDialog, setOpenOrderDialog, orderSelected, moneyForm , generatePDF}) => {
     const [value, setValue] = useState('1');
 
     const handleChange = (event, newValue) => {
@@ -24,6 +24,9 @@ const InvoiceDetail = ({ openOrderDialog, setOpenOrderDialog, orderSelected, mon
                     <div onClick={() => setOpenOrderDialog(false)} className="btnClose">
                         <i className="fa-regular fa-circle-xmark"></i>
                     </div>
+                    <div
+                        style={{position:'absolute', bottom:'30px', left:'45%'}}
+                        onClick={()=>generatePDF()} className="btn btn-success">Download PDF</div>
                     <div>
                         <Box sx={{ width: '100%', typography: 'body1' }}>
                             <TabContext value={value}>

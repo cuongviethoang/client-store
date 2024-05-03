@@ -206,7 +206,7 @@ function CreateOrder() {
                   <tr key={product.id}>
                     <td>{product.productName}</td>
                     <td>
-                      <img src={product.productImage} alt="Product" />
+                      <img width={60} src={`data:image/jpeg;base64,${product.productImage}`} alt="Base64 Image" />
                     </td>
                     <td>{formatCurrency(product.price)}</td>
                     <td>
