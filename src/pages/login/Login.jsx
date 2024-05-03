@@ -46,7 +46,7 @@ const Login = () => {
             toast.error("Vui lòng điền mật khẩu");
             return;
         }
-        dispatch(fetchLoginRedux(valueLogin, password));
+        dispatch(fetchLoginRedux(valueLogin.trim(), password.trim()));
     };
 
     const handlePressEnter = (e) => {
