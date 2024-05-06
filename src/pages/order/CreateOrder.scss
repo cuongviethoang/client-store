@@ -4,8 +4,6 @@ $secondary-color: #0056b3;
 $background-color: #f2f2f2;
 $input-padding: 8px;
 
-// CreateOrder.scss
-
 .create-order-container {
   width: 95vw;
   margin: 0 auto;
@@ -16,7 +14,7 @@ $input-padding: 8px;
 .left-section {
   flex: 1;
   padding: 20px;
-  margin-right: 20px; // Giảm khoảng cách giữa left và right sections
+  margin-right: 20px;
 }
 
 .right-section {
@@ -28,7 +26,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px; // Thêm khoảng cách giữa bảng và các phần khác
-  border: 1px solid #ddd; // Thêm viền cho bảng
+  border: 2px solid #ddd; // Thêm viền cho bảng
 }
 
 th,
@@ -56,6 +54,7 @@ button {
   background-color: $primary-color;
   color: #fff;
   border: none;
+  border-radius: 5px !important;
   cursor: pointer;
   margin-top: 10px; // Thêm khoảng cách giữa các nút
 }
@@ -67,4 +66,42 @@ button:hover {
 .confirm-button {
   text-align: center;
   margin-top: 20px; /* Điều chỉnh khoảng cách giữa nút xác nhận và phần trên */
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pagination-buttons {
+  margin-top: 10px;
+}
+.pagination-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: #dadbdd;
+  color: #0e0d0d;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+// .pagination-button:hover {
+//   background-color: #0056b3;
+// }
+
+.pagination-button:disabled {
+  // background-color: #e7e4e4;
+  cursor: not-allowed;
+}
+
+.pagination-button.active {
+  background-color: #007bff !important; /* Màu nền khi là trang hiện tại */
+  color: #fff; /* Màu chữ khi là trang hiện tại */
+}
+
+.pagination-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
