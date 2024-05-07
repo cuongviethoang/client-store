@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalSearchCustomer from "../managecustomer/ModalSearchCustomer";
+import { toast } from "react-toastify";
 
 import "./CreateOrder.scss";
 import { useSelector } from "react-redux";
@@ -163,24 +164,26 @@ function CreateOrder() {
       })
       .catch((error) => {
         console.error("Error sending payment:", error);
-        alert("Tạo đơn hàng lỗi!");
+        toast.error("Tạo đơn hàng lỗi!");
       });
   };
 
   const handleConfirmOrder = () => {
     if (!customer) {
       // Nếu chưa chọn khách hàng, đưa ra thông báo
-      alert("Vui lòng chọn khách hàng trước khi tạo hóa đơn!");
+      toast.error("Vui lòng chọn khách hàng trước khi tạo hóa đơn!");
       return;
     }
 
     if (items.length === 0) {
-      alert("Vui lòng thêm sản phẩm vào danh sách trước khi tạo hóa đơn!");
+      toast.error(
+        "Vui lòng thêm sản phẩm vào danh sách trước khi tạo hóa đơn!"
+      );
       return;
     }
 
     if (cashAmount < calculateTotal()) {
-      alert(
+      toast.error(
         "Số tiền khách đưa phải lớn hơn hoặc bằng tổng số tiền thanh toán!"
       );
       return;
@@ -224,6 +227,15 @@ function CreateOrder() {
       style: "currency",
       currency: "VND",
     });
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setCashAmount(value === "" ? 0 : parseInt(value));
+    } else {
+      setCashAmount((prevAmount) => prevAmount);
+    }
   };
 
   return (
@@ -443,15 +455,18 @@ function CreateOrder() {
         <div>
           <h3>Tiền khách đưa</h3>
           <input
-            type="number"
+            type="text"
             placeholder="Nhập số tiền khách đưa"
-            value={formatCurrency(cashAmount)}
-            onChange={(e) => setCashAmount(e.target.value)}
+            value={cashAmount}
+            onChange={handleChange}
+            className="customer-amount"
           />
         </div>
         <div>
           <h3>Tiền trả lại</h3>
-          <p>{formatCurrency(cashAmount - calculateTotal())}</p>
+          <p className="change-amount">
+            {formatCurrency(cashAmount - calculateTotal())}
+          </p>
         </div>
         <div className="confirm-button">
           <button onClick={handleConfirmOrder}>Xác nhận</button>
