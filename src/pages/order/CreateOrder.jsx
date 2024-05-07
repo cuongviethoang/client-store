@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalSearchCustomer from "../managecustomer/ModalSearchCustomer";
+import { toast } from "react-toastify";
 
 import "./CreateOrder.scss";
 import { useSelector } from "react-redux";
@@ -7,32 +8,104 @@ import { useSelector } from "react-redux";
 function CreateOrder() {
   const dataUser = useSelector((state) => state.auth.data.dataLogin);
   const customer = useSelector((state) => state.cus.cus);
-
-  const [selectedCustomerId, setSelectedCustomerId] = useState("");
-  const [selectedUserId, setSelectedUserId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [numberOfProduct, setNumberOfProduct] = useState(0);
+  const productsPerPage = 5;
   const [items, setItems] = useState([]);
   const [cashAmount, setCashAmount] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [productQuantities, setProductQuantities] = useState({});
   const [searchKeyword, setSearchKeyword] = useState("");
 
   // search khach hang
   const [modalSearchShow, setModalSearchShow] = useState(false);
 
-  const fetchProducts = () => {
-    fetch("http://localhost:8080/api/product/read-all?page=1&limit=10", {
+  const fetchNumberOfProducts = () => {
+    fetch(`http://localhost:8080/api/product/read-all-number`, {
       method: "GET",
       credentials: "include",
     })
       .then((response) => response.json())
-      .then((data) => setProducts(data))
+      .then((data) => {
+        setNumberOfProduct(data);
+        const totalProducts = data;
+        const totalPages = Math.ceil(totalProducts / productsPerPage);
+        setTotalPages(totalPages);
+        fetchAllProducts(data);
+      })
+      .catch((error) =>
+        console.error("Error fetching number of products: ", error)
+      );
+  };
+
+  const fetchAllProducts = (numberOfProduct) => {
+    fetch(
+      `http://localhost:8080/api/product/read-all?page=${1}&limit=${numberOfProduct}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setAllProducts(data);
+
+        const totalPages = Math.ceil(data.length / productsPerPage);
+        setTotalPages(totalPages);
+      })
       .catch((error) => console.error("Error fetching products: ", error));
+  };
+
+  //   const fetchProducts = (page, limit) => {
+  //     fetch(
+  //       `http://localhost:8080/api/product/read-all?page=${page}&limit=${limit}`,
+  //       {
+  //         method: "GET",
+  //         credentials: "include",
+  //       }
+  //     )
+  //       .then((response) => response.json())
+  //       .then((data) => setProducts(data))
+  //       .catch((error) => console.error("Error fetching products: ", error));
+  //   };
+
+  useEffect(() => {
+    fetchNumberOfProducts();
+  }, []);
+
+  //   useEffect(() => {
+  //     fetchNumberOfProducts();
+  //     fetchProducts(currentPage, productsPerPage);
+  //   }, [currentPage]);
+
+  const getCurrentPageProducts = () => {
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = Math.min(startIndex + productsPerPage, allProducts.length);
+    return allProducts.slice(startIndex, endIndex);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const handleAddProduct = () => {
     setShowPopup(true);
-    fetchProducts();
+    // fetchProducts(currentPage, productsPerPage);
   };
 
   const calculateTotal = () => {
@@ -70,7 +143,7 @@ function CreateOrder() {
     setSearchKeyword(e.target.value);
   };
 
-  const filteredProducts = products.filter((product) =>
+  const filteredProducts = allProducts.filter((product) =>
     product.productName.toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
@@ -91,24 +164,26 @@ function CreateOrder() {
       })
       .catch((error) => {
         console.error("Error sending payment:", error);
-        alert("Tạo đơn hàng lỗi!");
+        toast.error("Tạo đơn hàng lỗi!");
       });
   };
 
   const handleConfirmOrder = () => {
     if (!customer) {
       // Nếu chưa chọn khách hàng, đưa ra thông báo
-      alert("Vui lòng chọn khách hàng trước khi tạo hóa đơn!");
+      toast.error("Vui lòng chọn khách hàng trước khi tạo hóa đơn!");
       return;
     }
 
     if (items.length === 0) {
-      alert("Vui lòng thêm sản phẩm vào danh sách trước khi tạo hóa đơn!");
+      toast.error(
+        "Vui lòng thêm sản phẩm vào danh sách trước khi tạo hóa đơn!"
+      );
       return;
     }
 
     if (cashAmount < calculateTotal()) {
-      alert(
+      toast.error(
         "Số tiền khách đưa phải lớn hơn hoặc bằng tổng số tiền thanh toán!"
       );
       return;
@@ -152,6 +227,15 @@ function CreateOrder() {
       style: "currency",
       currency: "VND",
     });
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setCashAmount(value === "" ? 0 : parseInt(value));
+    } else {
+      setCashAmount((prevAmount) => prevAmount);
+    }
   };
 
   return (
@@ -202,11 +286,15 @@ function CreateOrder() {
               </thead>
               <tbody>
                 {/* Lọc danh sách sản phẩm dựa trên từ khoá tìm kiếm */}
-                {filteredProducts.map((product) => (
+                {/* {filteredProducts.map((product) => (
                   <tr key={product.id}>
                     <td>{product.productName}</td>
                     <td>
-                      <img src={product.productImage} alt="Product" />
+                      <img
+                        width={60}
+                        src={`data:image/jpeg;base64,${product.productImage}`}
+                        alt="Base64 Image"
+                      />
                     </td>
                     <td>{formatCurrency(product.price)}</td>
                     <td>
@@ -234,9 +322,79 @@ function CreateOrder() {
                       </button>
                     </td>
                   </tr>
-                ))}
+                ))} */}
+                {filteredProducts
+                  .slice(
+                    (currentPage - 1) * productsPerPage,
+                    currentPage * productsPerPage
+                  )
+                  .map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.productName}</td>
+                      <td>
+                        <img
+                          width={60}
+                          src={`data:image/jpeg;base64,${product.productImage}`}
+                          alt="Base64 Image"
+                        />
+                      </td>
+                      <td>{formatCurrency(product.price)}</td>
+                      <td>
+                        <input
+                          type="number"
+                          value={productQuantities[product.id] || 1}
+                          onChange={(e) =>
+                            handleQuantityChange(
+                              product.id,
+                              parseInt(e.target.value)
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleAddToOrder(
+                              product,
+                              productQuantities[product.id] || 1
+                            )
+                          }
+                        >
+                          Thêm
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
+            {/* Các nút chuyển trang */}
+            <div className="pagination-container">
+              <button
+                className="pagination-button"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+              >
+                {"<"}
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  className={`pagination-button ${
+                    currentPage === index + 1 ? "active" : ""
+                  }`}
+                  key={index + 1}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="pagination-button"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+              >
+                {">"}
+              </button>
+            </div>
             <button onClick={() => setShowPopup(false)}>Đóng</button>
           </div>
         )}
@@ -297,20 +455,18 @@ function CreateOrder() {
         <div>
           <h3>Tiền khách đưa</h3>
           <input
-            type="number"
+            type="text"
             placeholder="Nhập số tiền khách đưa"
-            value={formatCurrency(cashAmount)}
-            onChange={(e) => {
-              const inputValue = e.target.value;
-              if (inputValue >= 0) {
-                setCashAmount(inputValue);
-              }
-            }}
+            value={cashAmount}
+            onChange={handleChange}
+            className="customer-amount"
           />
         </div>
         <div>
           <h3>Tiền trả lại</h3>
-          <p>{formatCurrency(cashAmount - calculateTotal())}</p>
+          <p className="change-amount">
+            {formatCurrency(cashAmount - calculateTotal())}
+          </p>
         </div>
         <div className="confirm-button">
           <button onClick={handleConfirmOrder}>Xác nhận</button>
@@ -321,6 +477,7 @@ function CreateOrder() {
         onHide={() => setModalSearchShow(false)}
         btnManageOrder={false}
         btnSelect={true}
+        btnCreateCustomer={true}
       />
     </div>
   );
