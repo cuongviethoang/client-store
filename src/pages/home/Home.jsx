@@ -76,12 +76,12 @@ const Home = () => {
                     <div className="user-footer d-flex justify-content-center mt-3">
                         <ReactPaginate
                             forcePage={page - 1}
-                            nextLabel="next >"
+                            nextLabel="Trang sau >"
                             onPageChange={handlePageClick}
                             pageRangeDisplayed={4}
                             marginPagesDisplayed={2}
                             pageCount={prosNum}
-                            previousLabel="< previous"
+                            previousLabel="< Trang trước"
                             pageClassName="page-item"
                             pageLinkClassName="page-link"
                             previousClassName="page-item"

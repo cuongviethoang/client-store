@@ -9,6 +9,7 @@ const ManageOder = () => {
     const { cusId } = useParams();
     const dispatch = useDispatch();
     const listOrders = useSelector((state) => state.order.listOrder);
+    const customer = useSelector((state) => state.cus.cus);
     const isLoadingPaginationOrder = useSelector(
         (state) => state.order.isLoadingPaginationOrder
     );
@@ -34,7 +35,11 @@ const ManageOder = () => {
                 <div className="manage-users-container">
                     <div className="user-header my-3">
                         <div className="title">
-                            <h3>Quản lí các đơn hàng của khách hàng</h3>
+                            <h3>
+                                Quản lí các đơn hàng của khách hàng có tên:{" "}
+                                {customer.username} và số điện thoại:{" "}
+                                {customer.phoneNumber}
+                            </h3>
                         </div>
 
                         <div className="action">
@@ -134,12 +139,12 @@ const ManageOder = () => {
                         <div className="user-footer d-flex justify-content-center">
                             <ReactPaginate
                                 forcePage={curPage - 1}
-                                nextLabel="next >"
+                                nextLabel="Trang sau >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={4}
                                 marginPagesDisplayed={2}
                                 pageCount={listOrders?.total_page}
-                                previousLabel="< previous"
+                                previousLabel="< Trang trước"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"
