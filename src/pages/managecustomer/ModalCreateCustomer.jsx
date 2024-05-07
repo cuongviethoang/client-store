@@ -55,6 +55,7 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
                 ...checkValid,
                 isValidPhoneNumber: false,
             });
+            toast.error("Nhập số điện thoại là bắt buộc");
             return false;
         }
         if (phoneNumber.trim().length !== 10) {
@@ -62,10 +63,17 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
                 ...checkValid,
                 isValidPhoneNumber: false,
             });
+            toast.error(
+                "Vui lòng nhập đúng định dạng số điện thoại với 10 chữ số."
+            );
             return false;
         }
         if (!isValidPhone(phoneNumber)) {
-            toast.info("Đây không phải số điện thoại hợp lệ");
+            setCheckValid({
+                ...checkValid,
+                isValidPhoneNumber: false,
+            });
+            toast.error("Đây không phải số điện thoại hợp lệ");
             return false;
         }
         return true;
@@ -141,10 +149,10 @@ const ModalCreateCustomer = ({ showModalCreate, handleCloseModalCreate }) => {
                                             : ""
                                     }
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                {/* <Form.Control.Feedback type="invalid">
                                     Vui lòng điền đúng đinh dạng số điện thoại
                                     có đủ 10 chữ số.
-                                </Form.Control.Feedback>
+                                </Form.Control.Feedback> */}
                             </InputGroup>
                         </Form.Group>
                     </Form>

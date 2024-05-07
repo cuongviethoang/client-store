@@ -137,7 +137,7 @@ const ModalSearchCustomer = (props) => {
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Username</th>
+                                <th>Tên</th>
                                 <th>Số điện thoại</th>
                                 <th>Hành động</th>
                             </tr>
@@ -213,12 +213,12 @@ const ModalSearchCustomer = (props) => {
                         <div className="user-footer d-flex justify-content-center">
                             <ReactPaginate
                                 forcePage={+dataCusSearch?.current_page - 1}
-                                nextLabel="next >"
+                                nextLabel="Trang sau >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={4}
                                 marginPagesDisplayed={2}
                                 pageCount={+dataCusSearch?.total_page}
-                                previousLabel="< previous"
+                                previousLabel="< Trang trước"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"
