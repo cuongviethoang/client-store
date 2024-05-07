@@ -10,6 +10,7 @@ import ModalCreateCustomer from "./ModalCreateCustomer";
 import ModalEditCustomer from "./ModalEditCustomer";
 import ModalSearchCustomer from "./ModalSearchCustomer";
 import { Link } from "react-router-dom";
+import { detailCusRedux } from "../../redux/actions/customerAction";
 const ManageCustomers = () => {
     const dispatch = useDispatch();
     const listCus = useSelector((state) => state.cus.listCus);
@@ -121,22 +122,33 @@ const ManageCustomers = () => {
                                             <>
                                                 {listCus.map((item, index) => (
                                                     <tr key={`row-${index}`}>
-                                                        <td>
+                                                        <td className="text-left">
                                                             {(currentPageCus -
                                                                 1) *
                                                                 limitCus +
                                                                 index +
                                                                 1}
                                                         </td>
-                                                        <td>{item.username}</td>
-                                                        <td>
+                                                        <td className="text-left">
+                                                            {item.username}
+                                                        </td>
+                                                        <td className="text-left">
                                                             {item.phoneNumber}
                                                         </td>
                                                         <td className="d-flex justify-content-center gap-3">
                                                             <Link
                                                                 to={`/manage-order-of-customer/${item.id}`}
                                                             >
-                                                                <button className="btn btn-success">
+                                                                <button
+                                                                    className="btn btn-success"
+                                                                    onClick={() =>
+                                                                        dispatch(
+                                                                            detailCusRedux(
+                                                                                item.id
+                                                                            )
+                                                                        )
+                                                                    }
+                                                                >
                                                                     Xem các đơn
                                                                     hàng
                                                                 </button>
@@ -159,8 +171,8 @@ const ManageCustomers = () => {
                                             <>
                                                 <tr>
                                                     <td>
-                                                        Không tìm thấy khách
-                                                        hàng
+                                                        Không có khách hàng nào
+                                                        trong hệ thống
                                                     </td>
                                                 </tr>
                                             </>
@@ -174,12 +186,12 @@ const ManageCustomers = () => {
                         <div className="user-footer d-flex justify-content-center">
                             <ReactPaginate
                                 forcePage={pageCus - 1}
-                                nextLabel="next >"
+                                nextLabel="Trang sau >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={4}
                                 marginPagesDisplayed={2}
                                 pageCount={cusNum}
-                                previousLabel="< previous"
+                                previousLabel="< Trang trước"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"
@@ -210,6 +222,7 @@ const ManageCustomers = () => {
                     onHide={() => setModalSearchShow(false)}
                     btnManageOrder={true}
                     btnSelect={false}
+                    btnCreateCustomer={false}
                 />
             </Container>
         </>

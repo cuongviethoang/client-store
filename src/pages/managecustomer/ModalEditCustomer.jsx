@@ -43,6 +43,14 @@ const ModalEditCustomer = (props) => {
         setPhoneNumber(customer?.phoneNumber);
     }, [customer]);
 
+    const handleEnterPhone = (e) => {
+        const value = e.target.value;
+        if (Number(value) >= 0) {
+            setPhoneNumber(e.target.value);
+        }
+        return;
+    };
+
     // regex phone
     const isValidPhone = (phone) =>
         /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(
@@ -56,6 +64,7 @@ const ModalEditCustomer = (props) => {
                 ...checkValid,
                 isValidPhoneNumber: false,
             });
+            toast.error("Nhập số điện thoại là bắt buộc");
             return false;
         }
         if (phoneNumber.trim().length !== 10) {
@@ -63,6 +72,9 @@ const ModalEditCustomer = (props) => {
                 ...checkValid,
                 isValidPhoneNumber: false,
             });
+            toast.error(
+                "Vui lòng nhập đúng định dạng số điện thoại với 10 chữ số."
+            );
             return false;
         }
         if (
@@ -73,7 +85,11 @@ const ModalEditCustomer = (props) => {
             return false;
         }
         if (!isValidPhone(phoneNumber)) {
-            toast.info("Đây không phải số điện thoại hợp lệ");
+            setCheckValid({
+                ...checkValid,
+                isValidPhoneNumber: false,
+            });
+            toast.error("Đây không phải số điện thoại hợp lệ");
             return false;
         }
         return true;
@@ -144,9 +160,7 @@ const ModalEditCustomer = (props) => {
                                     type="number"
                                     placeholder="Số điện thoại khách hàng"
                                     value={phoneNumber}
-                                    onChange={(e) =>
-                                        setPhoneNumber(e.target.value)
-                                    }
+                                    onChange={(e) => handleEnterPhone(e)}
                                     required
                                     className={
                                         checkValid.isValidPhoneNumber === false
@@ -154,10 +168,10 @@ const ModalEditCustomer = (props) => {
                                             : ""
                                     }
                                 />
-                                <Form.Control.Feedback type="invalid">
+                                {/* <Form.Control.Feedback type="invalid">
                                     Vui lòng điền đúng đinh dạng số điện thoại
                                     có đủ 10 chữ số.
-                                </Form.Control.Feedback>
+                                </Form.Control.Feedback> */}
                             </InputGroup>
                         </Form.Group>
                     </Form>

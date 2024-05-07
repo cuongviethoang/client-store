@@ -37,7 +37,10 @@ const ManageItemOrder = () => {
                 <div className="manage-users-container">
                     <div className="user-header my-3">
                         <div className="title">
-                            <h3>Các mặt hàng trong đã mua trong 1 đơn hàng</h3>
+                            <h3>
+                                Các mặt hàng đã mua của đơn hàng có mã id là:{" "}
+                                {orderId}
+                            </h3>
                         </div>
 
                         <div className="action">
@@ -75,30 +78,30 @@ const ManageItemOrder = () => {
                                                         <tr
                                                             key={`row-${index}`}
                                                         >
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {(curPage - 1) *
                                                                     10 +
                                                                     index +
                                                                     1}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {
                                                                     item
                                                                         ?.product
                                                                         ?.productName
                                                                 }
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item
                                                                         ?.product
                                                                         ?.price
                                                                 )}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {item?.quantity}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item?.quantity *
                                                                         item
@@ -130,12 +133,12 @@ const ManageItemOrder = () => {
                         <div className="user-footer d-flex justify-content-center">
                             <ReactPaginate
                                 forcePage={curPage - 1}
-                                nextLabel="next >"
+                                nextLabel="Trang sau >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={4}
                                 marginPagesDisplayed={2}
                                 pageCount={listItemOrders?.total_page}
-                                previousLabel="< previous"
+                                previousLabel="< Trang trước"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"

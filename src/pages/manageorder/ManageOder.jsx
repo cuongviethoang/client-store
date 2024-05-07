@@ -4,12 +4,12 @@ import { Link, useParams } from "react-router-dom";
 import { getListOrderOfUserWithPagination } from "../../redux/actions/orderAction";
 import { Container } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
-import { format } from "date-fns";
 
 const ManageOder = () => {
     const { cusId } = useParams();
     const dispatch = useDispatch();
     const listOrders = useSelector((state) => state.order.listOrder);
+    const customer = useSelector((state) => state.cus.cus);
     const isLoadingPaginationOrder = useSelector(
         (state) => state.order.isLoadingPaginationOrder
     );
@@ -35,7 +35,11 @@ const ManageOder = () => {
                 <div className="manage-users-container">
                     <div className="user-header my-3">
                         <div className="title">
-                            <h3>Quản lí các đơn hàng của khách hàng</h3>
+                            <h3>
+                                Quản lí các đơn hàng của khách hàng có tên:{" "}
+                                {customer.username} và số điện thoại:{" "}
+                                {customer.phoneNumber}
+                            </h3>
                         </div>
 
                         <div className="action">
@@ -73,34 +77,30 @@ const ManageOder = () => {
                                                         <tr
                                                             key={`row-${index}`}
                                                         >
-                                                            <td>
+                                                            <td className="text-left">
                                                                 {(curPage - 1) *
                                                                     8 +
                                                                     index +
                                                                     1}
                                                             </td>
-                                                            <td>
-                                                                {item.createTime &&
-                                                                    format(
-                                                                        new Date(
-                                                                            item.createTime
-                                                                        ),
-                                                                        "dd/MM/yyyy HH:mm"
-                                                                    )}
+                                                            <td className="text-left">
+                                                                {
+                                                                    item.createTime
+                                                                }
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item.payment
                                                                         .total
                                                                 )}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item.payment
                                                                         .customerPaid
                                                                 )}
                                                             </td>
-                                                            <td>
+                                                            <td className="text-right">
                                                                 {moneyForm.format(
                                                                     item.payment
                                                                         .refunds
@@ -139,12 +139,12 @@ const ManageOder = () => {
                         <div className="user-footer d-flex justify-content-center">
                             <ReactPaginate
                                 forcePage={curPage - 1}
-                                nextLabel="next >"
+                                nextLabel="Trang sau >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={4}
                                 marginPagesDisplayed={2}
                                 pageCount={listOrders?.total_page}
-                                previousLabel="< previous"
+                                previousLabel="< Trang trước"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"

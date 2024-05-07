@@ -123,19 +123,21 @@ const ModalSearchCustomer = (props) => {
                             aria-label="Default"
                             aria-describedby="inputGroup-sizing-default"
                         />
-                        <button
-                            className="btn btn-success"
-                            onClick={() => handleOpenModalCreateCustomer()}
-                        >
-                            Thêm khách hàng
-                        </button>
+                        {props.btnCreateCustomer && (
+                            <button
+                                className="btn btn-success"
+                                onClick={() => handleOpenModalCreateCustomer()}
+                            >
+                                Thêm khách hàng
+                            </button>
+                        )}
                     </InputGroup>
                     <br />
                     <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Username</th>
+                                <th>Tên</th>
                                 <th>Số điện thoại</th>
                                 <th>Hành động</th>
                             </tr>
@@ -151,14 +153,18 @@ const ModalSearchCustomer = (props) => {
                               dataCusSearch?.data.length > 0 ? (
                                 dataCusSearch?.data.map((item, index) => (
                                     <tr key={`search-${index}`}>
-                                        <td>
+                                        <td className="text-left">
                                             {(dataCusSearch?.current_page - 1) *
                                                 dataCusSearch?.per_page +
                                                 index +
                                                 1}
                                         </td>
-                                        <td>{item?.username}</td>
-                                        <td>{item?.phoneNumber}</td>
+                                        <td className="text-left">
+                                            {item?.username}
+                                        </td>
+                                        <td className="text-left">
+                                            {item?.phoneNumber}
+                                        </td>
                                         <td>
                                             <Link
                                                 to={`/manage-order-of-customer/${item.id}`}
@@ -207,12 +213,12 @@ const ModalSearchCustomer = (props) => {
                         <div className="user-footer d-flex justify-content-center">
                             <ReactPaginate
                                 forcePage={+dataCusSearch?.current_page - 1}
-                                nextLabel="next >"
+                                nextLabel="Trang sau >"
                                 onPageChange={handlePageClick}
                                 pageRangeDisplayed={4}
                                 marginPagesDisplayed={2}
                                 pageCount={+dataCusSearch?.total_page}
-                                previousLabel="< previous"
+                                previousLabel="< Trang trước"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"
